@@ -1,1 +1,1 @@
-# untitled
+# untitled [![Build Status](https://travis-ci.org/billyzkid/untitled.svg?branch=master)](https://travis-ci.org/billyzkid/untitled)
