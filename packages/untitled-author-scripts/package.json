@@ -1,5 +1,5 @@
 {
-  "name": "untitled-author",
+  "name": "untitled-author-scripts",
   "version": "0.0.1",
   "description": "TODO",
   "keywords": [
@@ -12,10 +12,13 @@
     "url": "https://github.com/billyzkid/untitled/issues"
   },
   "files": [
-    "bin"
+    "bin",
+    "config",
+    "scripts",
+    "template"
   ],
   "bin": {
-    "untitled-author": "./bin/untitled-author.js"
+    "untitled-author-scripts": "./bin/untitled-author-scripts.js"
   },
   "engines": {
     "npm": ">=4",
@@ -40,6 +43,5 @@
       "es6": true
     }
   },
-  "preferGlobal": true,
   "private": true
 }
