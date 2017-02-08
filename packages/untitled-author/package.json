@@ -17,14 +17,27 @@
     "untitled-author": "./index.js"
   },
   "engines": {
-    "node": ">=4"
+    "npm": ">=4",
+    "node": ">=6"
   },
-  "dependencies": {
-    "chalk": "^1.1.1",
-    "commander": "^2.9.0",
-    "cross-spawn": "^4.0.0",
-    "fs-extra": "^1.0.0",
-    "semver": "^5.0.3"
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^3.15.0",
+    "eslint-config-defaults": "^9.0.0",
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "lint": "eslint . || exit 0",
+    "lint:watch": "nodemon --exec \"npm run lint\""
+  },
+  "eslintConfig": {
+    "extends": [
+      "defaults"
+    ],
+    "env": {
+      "node": true,
+      "es6": true
+    }
   },
   "preferGlobal": true,
   "private": true
