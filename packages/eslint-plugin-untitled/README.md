@@ -1,45 +1,49 @@
 # eslint-plugin-untitled
 
-TODO
+> [ESLint](http://eslint.org/) plugin for untitled authors and developers
+
+This plugin includes the following rules:
+
+- TODO
+
+<!--
+* [react/display-name](docs/rules/display-name.md): Prevent missing `displayName` in a React component definition
+* [react/forbid-component-props](docs/rules/forbid-component-props.md): Forbid certain props on Components
+* [react/forbid-prop-types](docs/rules/forbid-prop-types.md): Forbid certain propTypes
+-->
+
+For more information, check out the [Developer Guide](http://eslint.org/docs/developer-guide/working-with-plugins).
 
 ## Installation
 
-You'll first need to install [ESLint](http://eslint.org):
+Install ESLint and this plugin.
 
+```sh
+npm install --save-dev eslint eslint-plugin-untitled
 ```
-npm install eslint --save-dev
-```
-
-Next, install `eslint-plugin-untitled`:
-
-```
-npm install eslint-plugin-untitled --save-dev
-```
-
-**Note:** If you installed ESLint globally (using the `--global` flag), then you must also install `eslint-plugin-untitled` globally.
 
 ## Usage
 
-Add `untitled` to the `plugins` section of your ESLint configuration. You can omit the `eslint-plugin-` prefix:
+Configure this plugin and its rules. Note you can omit the `eslint-plugin-` prefix from the `untitled` plugin.
+
+### Via `.eslintrc`
 
 ```json
 {
-  "plugins": [
-    "untitled"
-  ]
-}
-```
-
-Then configure the rules you want to use under the rules section.
-
-```json
-{
+  "plugins": ["untitled"],
   "rules": {
     "untitled/rule-name": 2
   }
 }
 ```
 
-## Supported Rules
+### Via `package.json`
 
-* no-console - TODO
+```json
+"eslintConfig": {
+  "plugins": ["untitled"],
+  "rules": {
+    "untitled/rule-name": 2
+  }
+}
+```

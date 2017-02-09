@@ -1,11 +1,11 @@
 {
-  "name": "eslint-plugin-untitled",
+  "name": "babel-preset-untitled",
   "version": "0.0.1",
   "description": "TODO",
   "keywords": [
-    "eslint",
-    "eslintplugin",
-    "eslint-plugin",
+    "babel",
+    "babelpreset",
+    "babel-preset",
     "untitled"
   ],
   "author": "Will Allan <billyzkid@yahoo.com> (https://github.com/billyzkid)",
@@ -21,6 +21,11 @@
   "engines": {
     "node": ">=6"
   },
+  "dependencies": {
+    "babel-plugin-transform-class-properties": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.22.0",
+    "babel-preset-latest": "^6.22.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-preset-latest": "^6.22.0",
@@ -32,9 +37,6 @@
     "jest-cli": "^18.1.0",
     "nodemon": "^1.11.0",
     "rimraf": "^2.5.4"
-  },
-  "peerDependencies": {
-    "eslint": "^3.15.0"
   },
   "scripts": {
     "build": "babel src --out-dir build --ignore test.js",
