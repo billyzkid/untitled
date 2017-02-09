@@ -2,6 +2,8 @@
 
 A monorepo for the following packages:
 
+- [eslint-config-untitled](packages/eslint-config-untitled/README.md)
+- [eslint-plugin-untitled](packages/eslint-plugin-untitled/README.md)
 - [untitled](packages/untitled/README.md)
 - [untitled-author](packages/untitled-author/README.md)
 - [untitled-author-scripts](packages/untitled-author-scripts/README.md)

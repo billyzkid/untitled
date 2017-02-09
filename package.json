@@ -1,7 +1,7 @@
 {
+  "private": true,
   "devDependencies": {
-    "lerna": "2.0.0-beta.36",
-    "webpack": "^2.2.1"
+    "lerna": "2.0.0-beta.36"
   },
   "scripts": {
     "untitled": "bash ./tasks/untitled.sh",
@@ -10,6 +10,5 @@
     "build": "bash ./tasks/build.sh",
     "postinstall": "bash ./tasks/postinstall.sh",
     "publish": "bash ./tasks/publish.sh"
-  },
-  "private": true
+  }
 }
