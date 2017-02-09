@@ -1,6 +1,6 @@
 # untitled [![Build Status](https://travis-ci.org/billyzkid/untitled.svg?branch=master)](https://travis-ci.org/billyzkid/untitled)
 
-A monorepo for the following packages:
+> A [monorepo](https://medium.com/@bebraw/the-case-for-monorepos-907c1361708a#.c9uxbpq76) containing [untitled](https://billyzkid.github.io/untitled/) packages:
 
 - [babel-preset-untitled](packages/babel-preset-untitled/README.md)
 - [eslint-config-untitled](packages/eslint-config-untitled/README.md)

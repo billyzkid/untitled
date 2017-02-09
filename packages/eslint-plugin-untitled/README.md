@@ -1,22 +1,16 @@
 # eslint-plugin-untitled
 
-> [ESLint](http://eslint.org/) plugin for untitled authors and developers
+> [ESLint](http://eslint.org/) plugin for [untitled](https://billyzkid.github.io/untitled/) authors and developers
 
 This plugin includes the following rules:
 
-- TODO
-
-<!--
-- [react/display-name](docs/rules/display-name.md): Prevent missing `displayName` in a React component definition
-- [react/forbid-component-props](docs/rules/forbid-component-props.md): Forbid certain props on Components
-- [react/forbid-prop-types](docs/rules/forbid-prop-types.md): Forbid certain propTypes
--->
+* [untitled/no-console](docs/rules/no-console.md) - Use story in place of console object for logging`
 
 For more information, check out the [ESLint Developer Guide](http://eslint.org/docs/developer-guide/working-with-plugins).
 
 ## Installation
 
-Install ESLint and the plugin as dev dependencies.
+Install ESLint and plugin dev dependencies.
 
 ```sh
 npm install --save-dev eslint eslint-plugin-untitled
@@ -29,7 +23,7 @@ Configure the `untitled` plugin and rules. Note you can omit the `eslint-plugin-
 ### Via CLI
 
 ```sh
-eslint --plugin untitled --rule 'untitled/rule-name: 2'
+eslint --plugin untitled --rule 'untitled/rule-1: 0' --rule 'untitled/rule-2: 2'
 ```
 
 ### Via `.eslintrc`
@@ -38,7 +32,8 @@ eslint --plugin untitled --rule 'untitled/rule-name: 2'
 {
   "plugins": ["untitled"],
   "rules": {
-    "untitled/rule-name": 2
+    "untitled/rule-1": 0,
+    "untitled/rule-2": 2
   }
 }
 ```
@@ -49,7 +44,8 @@ eslint --plugin untitled --rule 'untitled/rule-name: 2'
 "eslintConfig": {
   "plugins": ["untitled"],
   "rules": {
-    "untitled/rule-name": 2
+    "untitled/rule-1": 0,
+    "untitled/rule-2": 2
   }
 }
 ```

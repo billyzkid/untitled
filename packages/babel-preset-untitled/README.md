@@ -1,24 +1,16 @@
 # babel-preset-untitled
 
-> [Babel](http://babeljs.io/) preset for untitled authors and developers
+> [Babel](http://babeljs.io/) preset for [untitled](https://billyzkid.github.io/untitled/) authors and developers
 
 This preset includes the following plugins:
 
-- TODO
-
-<!--
-- [syntax-flow](https://babeljs.io/docs/plugins/syntax-flow/)
-- [syntax-jsx](https://babeljs.io/docs/plugins/syntax-jsx/)
-- [transform-flow-strip-types](https://babeljs.io/docs/plugins/transform-flow-strip-types/)
-- [transform-react-jsx](https://babeljs.io/docs/plugins/transform-react-jsx/)
-- [transform-react-display-name](https://babeljs.io/docs/plugins/transform-react-display-name/)
--->
+* [untitled](../eslint-plugin-untitled/README.md)
 
 For more information, check out the [Babel Setup Page](http://babeljs.io/docs/setup/).
 
 ## Installation
 
-Install the Babel CLI and preset as dev dependencies.
+Install the Babel CLI and preset dev dependencies.
 
 ```sh
 npm install --save-dev babel-cli babel-preset-untitled

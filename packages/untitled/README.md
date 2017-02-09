@@ -1,10 +1,18 @@
 # untitled
 
-This package provides the core library and built-in extensions for use by story/extension authors.
+> Core library and extensions for [untitled](https://billyzkid.github.io/untitled/) authors and developers
+
+This package includes the following:
+
+* TODO
 
 ## Installation
 
-`npm install untitled --save`
+Install the package dependency.
+
+```sh
+npm install --save untitled
+```
 
 ## Usage
 
