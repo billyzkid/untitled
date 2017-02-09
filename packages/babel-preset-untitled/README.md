@@ -14,17 +14,17 @@ This preset includes the following plugins:
 - [transform-react-display-name](https://babeljs.io/docs/plugins/transform-react-display-name/)
 -->
 
-For more information, check out the [Setup Page](http://babeljs.io/docs/setup/).
+For more information, check out the [Babel Setup Page](http://babeljs.io/docs/setup/).
 
 ## Installation
 
-Install the Babel CLI and this preset.
+Install the Babel CLI and preset as dev dependencies.
 
 ```sh
 npm install --save-dev babel-cli babel-preset-untitled
 ```
 
-Make a .babelrc configuration file with the preset.
+Create a .babelrc file with the `untitled` preset configuration.
 
 ```sh
 echo '{ "presets": ["untitled"] }' > .babelrc
@@ -44,7 +44,7 @@ babel script.js
 
 ## Usage
 
-Configure this preset. Note you can omit the `babel-preset-` prefix from the `untitled` preset.
+Configure the `untitled` preset. Note you can omit the `babel-preset-` prefix.
 
 ### Via CLI
 
