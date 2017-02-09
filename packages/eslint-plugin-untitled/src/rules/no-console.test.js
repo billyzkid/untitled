@@ -1,5 +1,5 @@
 import { RuleTester } from "eslint";
-import rule from "../../src/rules/no-console";
+import rule from "./no-console";
 
 const ruleTester = new RuleTester();
 
