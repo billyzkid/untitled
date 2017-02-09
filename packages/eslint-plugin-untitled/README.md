@@ -4,7 +4,7 @@
 
 This plugin includes the following rules:
 
-* [untitled/no-console](docs/rules/no-console.md) - Use story in place of console object for logging`
+* [untitled/no-console](docs/rules/no-console.md) - Use story in place of console object for logging (TODO: doc)
 
 For more information, check out the [ESLint Developer Guide](http://eslint.org/docs/developer-guide/working-with-plugins).
 
