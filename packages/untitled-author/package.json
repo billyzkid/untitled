@@ -25,9 +25,9 @@
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
-    "babel-preset-untitled": "file:///C:\\Users\\will\\Code\\untitled\\packages\\babel-preset-untitled",
+    "babel-preset-untitled": "^0.0.1",
     "eslint": "^3.15.0",
-    "eslint-plugin-untitled": "file:///C:\\Users\\will\\Code\\untitled\\packages\\eslint-plugin-untitled",
+    "eslint-plugin-untitled": "^0.0.1",
     "jest-cli": "^18.1.0",
     "nodemon": "^1.11.0",
     "rimraf": "^2.5.4"
@@ -51,18 +51,23 @@
   },
   "eslintConfig": {
     "extends": [
-      "eslint:recommended"
+      "eslint:recommended",
+      "plugin:untitled/recommended"
     ],
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "experimentalObjectRestSpread": true
+      }
+    },
     "env": {
       "node": true,
       "es6": true
     },
     "plugins": [
       "untitled"
-    ],
-    "rules": {
-      "untitled/no-console": 2
-    }
+    ]
   },
   "jest": {
     "testEnvironment": "node",
