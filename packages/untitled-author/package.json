@@ -6,35 +6,52 @@
     "untitled",
     "author"
   ],
-  "license": "MIT",
+  "author": "Will Allan <billyzkid@yahoo.com> (https://github.com/billyzkid)",
+  "homepage": "https://billyzkid.github.io/untitled/",
+  "bugs": "https://github.com/billyzkid/untitled/issues",
   "repository": "billyzkid/untitled",
-  "bugs": {
-    "url": "https://github.com/billyzkid/untitled/issues"
+  "license": "MIT",
+  "private": true,
+  "preferGlobal": true,
+  "main": "build/index.js",
+  "bin": {
+    "untitled-author": "build/index.js"
   },
   "files": [
-    "bin"
+    "build"
   ],
-  "bin": {
-    "untitled-author": "./bin/untitled-author.js"
-  },
   "engines": {
-    "npm": ">=4",
     "node": ">=6"
   },
-  "dependencies": {},
   "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-untitled": "file:///C:\\Users\\will\\Code\\untitled\\packages\\babel-preset-untitled",
     "eslint": "^3.15.0",
-    "eslint-config-defaults": "^9.0.0",
-    "eslint-plugin-untitled": "file:///C:\\Code\\untitled\\packages\\eslint-plugin-untitled",
-    "nodemon": "^1.11.0"
+    "eslint-plugin-untitled": "file:///C:\\Users\\will\\Code\\untitled\\packages\\eslint-plugin-untitled",
+    "jest-cli": "^18.1.0",
+    "nodemon": "^1.11.0",
+    "rimraf": "^2.5.4"
   },
   "scripts": {
-    "lint": "eslint . || exit 0",
-    "lint:watch": "nodemon --exec \"npm run lint\""
+    "build": "babel src --out-dir build --ignore test.js",
+    "build:watch": "npm run build -- --watch",
+    "clean": "rimraf build",
+    "lint": "eslint src",
+    "lint:watch": "nodemon --watch src --exec npm run lint",
+    "prebuild": "npm run clean",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "test:coverage": "npm run test -- --coverage",
+    "test:watch": "npm run test -- --watch"
+  },
+  "babel": {
+    "presets": [
+      "untitled"
+    ]
   },
   "eslintConfig": {
     "extends": [
-      "defaults"
+      "eslint:recommended"
     ],
     "env": {
       "node": true,
@@ -47,6 +64,11 @@
       "untitled/no-console": 2
     }
   },
-  "preferGlobal": true,
-  "private": true
+  "jest": {
+    "testEnvironment": "node",
+    "testRegex": "src/.*\\.test\\.js$",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  }
 }
