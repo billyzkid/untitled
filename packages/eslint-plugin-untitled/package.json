@@ -1,0 +1,67 @@
+{
+  "name": "eslint-plugin-untitled",
+  "version": "0.0.1",
+  "description": "TODO",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "untitled"
+  ],
+  "license": "UNLICENSED",
+  "private": true,
+  "repository": "billyzkid/untitled",
+  "bugs": {
+    "url": "https://github.com/billyzkid/untitled/issues"
+  },
+  "main": "build/index.js",
+  "files": [
+    "build"
+  ],
+  "engines": {
+    "node": ">=6"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-jest": "*",
+    "babel-preset-latest": "*",
+    "eslint": "*",
+    "eslint-config-airbnb": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-jsx-a11y": "*",
+    "eslint-plugin-react": "*",
+    "jest-cli": "*",
+    "rimraf": "*"
+  },
+  "peerDependencies": {
+    "eslint": "*"
+  },
+  "scripts": {
+    "build": "babel src -d build",
+    "build:w": "npm run build -- --watch",
+    "clean": "rimraf build",
+    "lint": "eslint src",
+    "prebuild": "npm run clean",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "test:w": "npm run test -- --watch"
+  },
+  "babel": {
+    "presets": [
+      "latest"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "airbnb"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testRegex": "tests/.*\\.js$",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  }
+}
