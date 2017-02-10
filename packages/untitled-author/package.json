@@ -68,9 +68,8 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testRegex": "src/.*\\.test\\.js$",
-    "collectCoverageFrom": [
-      "src/**/*.js"
+    "testPathDirs": [
+      "src"
     ]
   }
 }
