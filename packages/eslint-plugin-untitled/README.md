@@ -1,16 +1,14 @@
 # eslint-plugin-untitled
 
-> [ESLint](http://eslint.org/) plugin for [untitled](https://billyzkid.github.io/untitled/) authors and developers
+> ESLint [plugin](http://eslint.org/docs/developer-guide/working-with-plugins) for [Untitled](https://billyzkid.github.io/untitled/) authors and developers
 
 This plugin includes the following rules:
 
-* [untitled/no-console](docs/rules/no-console.md) - Use story in place of console object for logging (TODO: doc)
-
-For more information, check out the [ESLint Developer Guide](http://eslint.org/docs/developer-guide/working-with-plugins).
+* [untitled/no-console](docs/rules/no-console.md) - Use story in place of console object for logging (TODO: docs)
 
 ## Installation
 
-Install ESLint and plugin dev dependencies.
+Install the necessary dependencies.
 
 ```sh
 npm install --save-dev eslint eslint-plugin-untitled
@@ -18,7 +16,7 @@ npm install --save-dev eslint eslint-plugin-untitled
 
 ## Usage
 
-Configure the `untitled` plugin and rules. Note you can omit the `eslint-plugin-` prefix.
+Configure the `untitled` plugin and rules. Note that you may omit the `eslint-plugin-` prefix.
 
 ### Via CLI
 
@@ -30,7 +28,9 @@ eslint --plugin untitled --rule 'untitled/rule-1: 0' --rule 'untitled/rule-2: 2'
 
 ```json
 {
-  "plugins": ["untitled"],
+  "plugins": [
+    "untitled"
+  ],
   "rules": {
     "untitled/rule-1": 0,
     "untitled/rule-2": 2
@@ -41,11 +41,15 @@ eslint --plugin untitled --rule 'untitled/rule-1: 0' --rule 'untitled/rule-2: 2'
 ### Via `package.json`
 
 ```json
-"eslintConfig": {
-  "plugins": ["untitled"],
-  "rules": {
-    "untitled/rule-1": 0,
-    "untitled/rule-2": 2
+{
+  "eslintConfig": {
+    "plugins": [
+      "untitled"
+    ],
+    "rules": {
+      "untitled/rule-1": 0,
+      "untitled/rule-2": 2
+    }
   }
 }
 ```

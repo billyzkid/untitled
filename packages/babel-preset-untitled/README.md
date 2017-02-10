@@ -1,16 +1,14 @@
 # babel-preset-untitled
 
-> [Babel](http://babeljs.io/) preset for [untitled](https://billyzkid.github.io/untitled/) authors and developers
+> Babel [preset](http://babeljs.io/docs/plugins/#presets) for [Untitled](https://billyzkid.github.io/untitled/) authors and developers
 
 This preset includes the following plugins:
 
 * [untitled](../eslint-plugin-untitled/README.md)
 
-For more information, check out the [Babel Setup Page](http://babeljs.io/docs/setup/).
-
 ## Installation
 
-Install the Babel CLI and preset dev dependencies.
+Install the necessary dependencies.
 
 ```sh
 npm install --save-dev babel-cli babel-preset-untitled
@@ -36,7 +34,7 @@ babel script.js
 
 ## Usage
 
-Configure the `untitled` preset. Note you can omit the `babel-preset-` prefix.
+Configure the `untitled` preset. Note that you may omit the `babel-preset-` prefix.
 
 ### Via CLI
 

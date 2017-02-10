@@ -1,6 +1,6 @@
 # untitled
 
-> Core library and extensions for [untitled](https://billyzkid.github.io/untitled/) authors and developers
+> Core library and extensions for [Untitled](https://billyzkid.github.io/untitled/) authors and developers
 
 This package includes the following:
 

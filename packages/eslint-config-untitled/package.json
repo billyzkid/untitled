@@ -1,10 +1,12 @@
 {
-  "name": "untitled-author",
+  "name": "eslint-config-untitled",
   "version": "0.0.1",
   "description": "TODO",
   "keywords": [
-    "untitled",
-    "author"
+    "eslint",
+    "eslintconfig",
+    "eslint-config",
+    "untitled"
   ],
   "author": "Will Allan <billyzkid@yahoo.com> (https://github.com/billyzkid)",
   "homepage": "https://billyzkid.github.io/untitled/",
@@ -12,11 +14,7 @@
   "repository": "billyzkid/untitled",
   "license": "MIT",
   "private": true,
-  "preferGlobal": true,
   "main": "build/index.js",
-  "bin": {
-    "untitled-author": "build/index.js"
-  },
   "files": [
     "build"
   ],
@@ -25,15 +23,20 @@
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
-    "babel-eslint": "^7.1.1",
-    "babel-jest": "^18.0.0",
-    "babel-preset-untitled": "^0.0.1",
+    "babel-preset-latest": "^6.22.0",
     "eslint": "^3.15.0",
-    "eslint-config-untitled": "^0.0.1",
-    "eslint-plugin-untitled": "^0.0.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
     "jest-cli": "^18.1.0",
     "nodemon": "^1.11.0",
     "rimraf": "^2.5.4"
+  },
+  "peerDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.15.0",
+    "eslint-plugin-untitled": "^0.0.1"
   },
   "scripts": {
     "build": "babel src --out-dir build --ignore test.js",
@@ -49,13 +52,33 @@
   },
   "babel": {
     "presets": [
-      "untitled"
+      "latest"
     ]
   },
   "eslintConfig": {
-    "extends": [
-      "untitled"
-    ]
+    "extends": "airbnb",
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "rules": {
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
+      "eol-last": [
+        "error",
+        "never"
+      ],
+      "linebreak-style": [
+        "error",
+        "windows"
+      ],
+      "quotes": [
+        "error",
+        "double"
+      ]
+    }
   },
   "jest": {
     "testEnvironment": "node",
