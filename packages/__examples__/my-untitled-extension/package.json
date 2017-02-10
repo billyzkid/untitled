@@ -1,0 +1,53 @@
+{
+  "name": "my-untitled-extension",
+  "version": "0.0.1",
+  "author": "My Name <my@email.com> (http://my.homepage.com/)",
+  "description": "This is the description of My Untitled Extension",
+  "keywords": [
+    "my",
+    "untitled",
+    "extension"
+  ],
+  "main": "build/index.js",
+  "files": [
+    "build"
+  ],
+  "engines": {
+    "node": ">=6"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-eslint": "^7.1.1",
+    "babel-jest": "^18.0.0",
+    "babel-preset-untitled": "^0.0.1",
+    "eslint": "^3.15.0",
+    "eslint-config-untitled": "^0.0.1",
+    "eslint-plugin-untitled": "^0.0.1",
+    "jest-cli": "^18.1.0",
+    "nodemon": "^1.11.0",
+    "rimraf": "^2.5.4",
+    "untitled": "^0.0.1"
+  },
+  "scripts": {
+    "start": "babel-node scripts/start.js --presets untitled",
+    "build": "babel-node scripts/build.js --presets untitled",
+    "test": "babel-node scripts/test.js --presets untitled",
+    "eject": "babel-node scripts/eject.js --presets untitled"
+  },
+  "babel": {
+    "presets": [
+      "untitled"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "untitled"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testPathDirs": [
+      "src"
+    ]
+  }
+}

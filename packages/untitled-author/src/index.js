@@ -1,6 +1,6 @@
 import packageJson from "../package.json";
 
-// eslint-disable-next-line no-console, untitled/no-console
+
 console.warn(`${packageJson.name} is not implemented!`);
 
 class Zork {
