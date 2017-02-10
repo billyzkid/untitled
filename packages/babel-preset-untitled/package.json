@@ -48,23 +48,6 @@
     "test:coverage": "npm run test -- --coverage",
     "test:watch": "npm run test -- --watch"
   },
-  "babel": {
-    "presets": [
-      "latest"
-    ]
-  },
-  "eslintConfig": {
-    "root": "true",
-    "parser": "babel-eslint",
-    "extends": [
-      "eslint:recommended"
-    ],
-    "env": {
-      "es6": true,
-      "node": true,
-      "jest": true
-    }
-  },
   "jest": {
     "testEnvironment": "node",
     "testPathDirs": [
