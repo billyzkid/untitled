@@ -8,7 +8,8 @@ module.exports = {
     "untitled"
   ],
   extends: [
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:untitled/recommended"
   ],
   env: {
     es6: true,

@@ -15,7 +15,7 @@ describe("rules", () => {
 
 describe("configs", () => {
   ruleNames.forEach((ruleName) => {
-    test(`should include ${ruleName}`, () => {
+    test(`should include recommended config for ${ruleName}`, () => {
       expect(configs.recommended.rules[`untitled/${ruleName}`]).toBeDefined();
     });
   });
