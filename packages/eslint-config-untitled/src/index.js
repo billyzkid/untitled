@@ -2,7 +2,7 @@
 // https://babeljs.io/docs/plugins/transform-es2015-modules-commonjs/
 
 module.exports = {
-  root: "true",
+  root: true,
   parser: "babel-eslint",
   plugins: [
     "untitled"

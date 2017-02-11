@@ -1,5 +1,5 @@
 {
-  "root": "true",
+  "root": true,
   "parser": "babel-eslint",
   "extends": [
     "eslint:recommended"
@@ -10,6 +10,6 @@
     "jest": true
   },
   "rules": {
-    "no-console": 0
+    "no-console": "warn"
   }
 }

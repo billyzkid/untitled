@@ -1,4 +1,16 @@
 {
+  "name": "untitled",
+  "version": "0.0.1",
+  "description": "TODO",
+  "keywords": [
+    "untitled",
+    "interactive fiction"
+  ],
+  "author": "Will Allan <billyzkid@yahoo.com> (https://github.com/billyzkid)",
+  "homepage": "https://billyzkid.github.io/untitled/",
+  "bugs": "https://github.com/billyzkid/untitled/issues",
+  "repository": "billyzkid/untitled",
+  "license": "MIT",
   "private": true,
   "devDependencies": {
     "babel-eslint": "^7.1.1",
