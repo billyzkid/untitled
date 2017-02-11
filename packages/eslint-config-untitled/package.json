@@ -14,7 +14,7 @@
   "repository": "billyzkid/untitled",
   "license": "MIT",
   "private": true,
-  "main": "build/index.js",
+  "main": "build/base.js",
   "files": [
     "build"
   ],

@@ -5,12 +5,15 @@ export const rules = {
 };
 
 export const configs = {
-  recommended: {
-    rules: {
-      "untitled/no-console": 2
-    }
-  },
-  guide: {
+  base: {
     rules: {}
+  },
+  extension: {
+    rules: {}
+  },
+  story: {
+    rules: {
+      "untitled/no-console": "error"
+    }
   }
 };

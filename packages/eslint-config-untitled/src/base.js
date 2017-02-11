@@ -9,11 +9,14 @@ module.exports = {
   ],
   extends: [
     "eslint:recommended",
-    "plugin:untitled/recommended"
+    "plugin:untitled/base"
   ],
   env: {
     es6: true,
     node: true,
     jest: true
+  },
+  rules: {
+    "no-console": "warn"
   }
 };

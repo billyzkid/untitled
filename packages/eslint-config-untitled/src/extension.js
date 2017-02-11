@@ -2,17 +2,11 @@
 // https://babeljs.io/docs/plugins/transform-es2015-modules-commonjs/
 
 module.exports = {
-  root: true,
-  parser: "babel-eslint",
-  plugins: [
-    "untitled"
-  ],
   extends: [
-    "eslint:recommended"
+    "./base.js",
+    "plugin:untitled/extension"
   ],
-  env: {
-    es6: true,
-    node: true,
-    jest: true
+  rules: {
+    "no-console": "off"
   }
 };

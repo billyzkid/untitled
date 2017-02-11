@@ -42,7 +42,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "untitled"
+      "untitled/build/extension"
     ]
   },
   "jest": {
