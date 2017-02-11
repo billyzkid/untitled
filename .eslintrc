@@ -1,5 +1,15 @@
 {
+  "root": true,
+  "parser": "babel-eslint",
   "extends": [
-    "untitled"
-  ]
+    "eslint:recommended"
+  ],
+  "env": {
+    "es6": true,
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "no-console": "warn"
+  }
 }
