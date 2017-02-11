@@ -8,6 +8,7 @@
     "untitled",
     "extension"
   ],
+  "private": true,
   "main": "build/index.js",
   "files": [
     "build"
