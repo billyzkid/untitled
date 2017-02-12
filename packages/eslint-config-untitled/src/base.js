@@ -4,12 +4,12 @@
 module.exports = {
   root: true,
   parser: "babel-eslint",
-  plugins: [
-    "untitled"
-  ],
+  // plugins: [
+  //   "untitled"
+  // ],
   extends: [
     "eslint:recommended",
-    "plugin:untitled/base"
+    // "plugin:untitled/base"
   ],
   env: {
     es6: true,

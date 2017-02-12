@@ -4,6 +4,6 @@
 module.exports = {
   extends: [
     "./base.js",
-    "plugin:untitled/story"
+    // "plugin:untitled/story"
   ]
 };
