@@ -22,6 +22,10 @@
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-class-properties": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.22.0",
+    "babel-preset-latest": "^6.22.0",
     "eslint": "^3.15.0",
     "jest-cli": "^18.1.0",
     "nodemon": "^1.11.0",
@@ -31,18 +35,15 @@
     "build": "babel src --out-dir build --ignore test.js",
     "build:watch": "npm run build -- --watch",
     "clean": "rimraf build",
+    "clean:all": "rimraf build coverage node_modules",
+    "coverage": "npm run test -- --coverage",
+    "coverage:watch": "npm run coverage -- --watch",
     "lint": "eslint src",
     "lint:watch": "nodemon --watch src --exec npm run lint",
     "prebuild": "npm run clean",
+    "prepublish": "npm run build",
     "pretest": "npm run lint",
-    "test": "jest",
-    "test:coverage": "npm run test -- --coverage",
+    "test": "jest --config ../../.jestrc",
     "test:watch": "npm run test -- --watch"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "testPathDirs": [
-      "src"
-    ]
   }
 }
