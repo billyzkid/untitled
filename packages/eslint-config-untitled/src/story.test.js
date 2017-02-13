@@ -11,6 +11,6 @@ describe("config", () => {
     const report = engine.executeOnText("console.log();");
 
     expect(report.results.length).toBe(1);
-    // expect(report.results[0].messages.length).toBe(2);
+    expect(report.results[0].messages.length).toBe(2);
   });
 });

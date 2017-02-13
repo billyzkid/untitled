@@ -4,7 +4,7 @@
 module.exports = {
   extends: [
     "./base.js",
-    // "plugin:untitled/extension"
+    "plugin:untitled/extension"
   ],
   rules: {
     "no-console": "off"
