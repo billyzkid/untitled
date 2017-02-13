@@ -1,5 +1,4 @@
 build
 coverage
 node_modules
-npm-debug.*
-lerna-debug.*
+*.log

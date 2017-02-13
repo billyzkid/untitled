@@ -18,7 +18,9 @@
   "scripts": {
     "build": "lerna run build",
     "clean": "lerna run clean",
+    "coverage": "lerna run coverage",
     "lint": "lerna run lint",
+    "nuke": "bash scripts/nuke.sh",
     "postinstall": "lerna bootstrap",
     "publish": "lerna publish",
     "test": "lerna run test"

@@ -39,7 +39,6 @@
     "build": "babel src --out-dir build --ignore test.js",
     "build:watch": "npm run build -- --watch",
     "clean": "rimraf build",
-    "clean:all": "rimraf build coverage node_modules",
     "coverage": "npm run test -- --coverage",
     "coverage:watch": "npm run coverage -- --watch",
     "lint": "eslint src",
