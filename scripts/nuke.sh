@@ -7,19 +7,19 @@ cd "$(dirname "$0")"
 set -e
 
 # Echo every command being executed
-#set -x
+set -x
 
 # Go to root
 cd ..
 
-rm -fr node_modules/
+rm -rf node_modules/
 rm -f *.log
 
 for D in packages/*; do
   if [ -d "${D}" ]; then
-    rm -fr ${D}/build/
-    rm -fr ${D}/coverage/
-    rm -fr ${D}/node_modules/
+    rm -rf ${D}/build/
+    rm -rf ${D}/coverage/
+    rm -rf ${D}/node_modules/
     rm -f ${D}/*.log
   fi
 done
