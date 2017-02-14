@@ -1,10 +1,10 @@
 {
-  "name": "untitled",
+  "name": "untitled-scripts",
   "version": "0.0.1",
   "description": "TODO",
   "keywords": [
     "untitled",
-    "core"
+    "scripts"
   ],
   "author": "Will Allan <billyzkid@yahoo.com> (https://github.com/billyzkid)",
   "homepage": "https://billyzkid.github.io/untitled/",
@@ -12,12 +12,17 @@
   "repository": "billyzkid/untitled",
   "license": "MIT",
   "private": true,
-  "main": "build/core/index.js",
+  "bin": {
+    "untitled-scripts": "build/index.js"
+  },
   "files": [
     "build"
   ],
   "engines": {
     "node": ">=6"
+  },
+  "dependencies": {
+    "cross-spawn": "4.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",

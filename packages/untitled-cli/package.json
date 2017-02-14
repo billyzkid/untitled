@@ -1,10 +1,10 @@
 {
-  "name": "untitled-author",
+  "name": "untitled-cli",
   "version": "0.0.1",
   "description": "TODO",
   "keywords": [
     "untitled",
-    "author"
+    "cli"
   ],
   "author": "Will Allan <billyzkid@yahoo.com> (https://github.com/billyzkid)",
   "homepage": "https://billyzkid.github.io/untitled/",
@@ -13,9 +13,8 @@
   "license": "MIT",
   "private": true,
   "preferGlobal": true,
-  "main": "build/index.js",
   "bin": {
-    "untitled-author": "build/index.js"
+    "untitled": "build/index.js"
   },
   "files": [
     "build"
