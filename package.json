@@ -13,7 +13,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "lerna": "2.0.0-beta.36"
+    "lerna": "^2.0.0-beta.37"
   },
   "scripts": {
     "build": "lerna run build",
