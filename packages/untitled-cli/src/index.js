@@ -1,3 +1,4 @@
-import packageJson from "../package.json";
-
-console.warn(`${packageJson.name} is not implemented!`);
+// eslint-disable-next-line no-unused-vars
+export function execute(args) {
+  return 0;
+}

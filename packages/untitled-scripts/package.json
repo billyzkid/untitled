@@ -13,7 +13,7 @@
   "license": "MIT",
   "private": true,
   "bin": {
-    "untitled-scripts": "build/index.js"
+    "untitled-scripts": "bin/untitled-scripts.js"
   },
   "files": [
     "build"

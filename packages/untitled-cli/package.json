@@ -14,7 +14,7 @@
   "private": true,
   "preferGlobal": true,
   "bin": {
-    "untitled": "build/index.js"
+    "untitled": "bin/untitled.js"
   },
   "files": [
     "build"

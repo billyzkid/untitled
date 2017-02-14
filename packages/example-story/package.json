@@ -15,9 +15,9 @@
     "untitled-scripts": "^0.0.1"
   },
   "scripts": {
-    "xxstart": "untitled-scripts start",
-    "xxbuild": "untitled-scripts build",
-    "xxtest": "untitled-scripts test",
-    "xxeject": "untitled-scripts eject"
+    "start": "echo FIXME: untitled-scripts start",
+    "build": "echo FIXME: untitled-scripts build",
+    "test": "echo FIXME: untitled-scripts test",
+    "eject": "echo FIXME: untitled-scripts eject"
   }
 }
