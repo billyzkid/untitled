@@ -38,7 +38,7 @@
     "rimraf": "^2.5.4"
   },
   "scripts": {
-    "build": "babel src --out-dir build --ignore test.js",
+    "build": "babel src --ignore test.js --out-dir build --source-maps",
     "build:watch": "npm run build -- --watch",
     "clean": "rimraf build",
     "coverage": "npm run test -- --coverage",
