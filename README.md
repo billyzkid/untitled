@@ -1,4 +1,4 @@
-# untitled [![Build Status](https://travis-ci.org/billyzkid/untitled.svg?branch=master)](https://travis-ci.org/billyzkid/untitled)
+# untitled [![Build Status](https://travis-ci.org/billyzkid/untitled.svg?branch=master)](https://travis-ci.org/billyzkid/untitled) [![Coverage Status](https://coveralls.io/repos/github/billyzkid/untitled/badge.svg?branch=master)](https://coveralls.io/github/billyzkid/untitled?branch=master)
 
 > A [monorepo](https://medium.com/@bebraw/the-case-for-monorepos-907c1361708a#.c9uxbpq76) containing the following [Untitled](https://billyzkid.github.io/untitled/) packages:
 
