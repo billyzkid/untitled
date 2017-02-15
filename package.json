@@ -13,14 +13,18 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "lerna": "^2.0.0-beta.37"
+    "coveralls": "^2.11.16",
+    "istanbul-combine": "^0.3.0",
+    "lerna": "^2.0.0-beta.37",
+    "rimraf": "^2.5.4"
   },
   "scripts": {
     "build": "lerna run build",
     "clean": "lerna run clean",
     "coverage": "lerna run coverage",
     "lint": "lerna run lint",
-    "nuke": "node scripts/nuke",
+    "nuke": "node ./scripts/nuke",
+    "postcoverage": "node ./scripts/postcoverage",
     "postinstall": "lerna bootstrap",
     "publish": "lerna publish",
     "test": "lerna run test"
