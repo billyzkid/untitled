@@ -5,12 +5,12 @@
   "changelog": {
     "repo": "billyzkid/untitled",
     "labels": {
-      "tag: new feature": ":rocket: New Feature",
-      "tag: breaking change": ":boom: Breaking Change",
-      "tag: bug fix": ":bug: Bug Fix",
-      "tag: enhancement": ":nail_care: Enhancement",
-      "tag: documentation": ":memo: Documentation",
-      "tag: internal": ":house: Internal"
+      "new feature": ":rocket: New Feature",
+      "breaking change": ":boom: Breaking Change",
+      "bug fix": ":bug: Bug Fix",
+      "enhancement": ":nail_care: Enhancement",
+      "documentation": ":memo: Documentation",
+      "internal": ":house: Internal"
     }
   }
 }
