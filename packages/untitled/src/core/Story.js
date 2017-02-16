@@ -4,7 +4,7 @@ class Story {
     this.children = [];
   }
 
-  ask(text) {
+  input(text) {
     return `${text} ==> ${JSON.stringify(this)}`;
   }
 }

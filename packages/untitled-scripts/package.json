@@ -13,9 +13,10 @@
   "license": "MIT",
   "private": true,
   "bin": {
-    "untitled-scripts": "bin/untitled-scripts.js"
+    "untitled-scripts": "./bin/untitled-scripts.js"
   },
   "files": [
+    "bin",
     "build"
   ],
   "engines": {
@@ -36,16 +37,15 @@
     "rimraf": "^2.5.4"
   },
   "scripts": {
-    "build": "babel src --ignore test.js --out-dir build --source-maps",
+    "build": "babel ./src --out-dir ./build --ignore *.test.js --source-maps",
     "build:watch": "npm run build -- --watch",
-    "clean": "rimraf build",
+    "clean": "rimraf ./build",
     "coverage": "npm run test -- --coverage",
     "coverage:watch": "npm run coverage -- --watch",
-    "lint": "eslint src",
-    "lint:watch": "nodemon --watch src --exec npm run lint",
-    "prebuild": "npm run clean",
+    "lint": "eslint ./src",
+    "lint:watch": "nodemon --watch ./src --exec npm run lint",
+    "prebuild": "npm run clean && npm run lint && npm run test",
     "prepublish": "npm run build",
-    "pretest": "npm run lint",
     "test": "jest --config ../../.jestrc",
     "test:watch": "npm run test -- --watch"
   }

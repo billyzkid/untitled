@@ -1,17 +1,20 @@
 import { Story } from "untitled";
 import { English } from "untitled-grammars";
-import { Automobile } from "untitled-vehicles";
 
-const myStory = new Story();
-myStory.grammar = new English();
-myStory.title = "Example Story";
+const story = new Story();
+story.grammar = new English();
+story.title = "Example Story";
 
-const driveway = new Place();
-driveway.name = "driveway";
-myStory.children.push(driveway);
+const bedroom = new Place();
+bedroom.name = "your bedroom";
+story.children.push(bedroom);
 
-const car = new Automobile();
-car.name = "car";
-driveway.children.push(car);
+const you = new Person();
+you.name = "you";
+bedroom.children.push(you);
 
-export default myStory;
+const wallet = new Thing();
+wallet.name = "your wallet";
+you.children.push(wallet);
+
+export default story;

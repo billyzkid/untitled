@@ -3,7 +3,6 @@ import pluginTransformClassProperties from "babel-plugin-transform-class-propert
 import pluginTransformObjectRestSpread from "babel-plugin-transform-object-rest-spread";
 
 export default {
-  comments: false,
   presets: [
     presetLatest
   ],

@@ -3,7 +3,4 @@ language: node_js
 node_js:
   - 6
 script:
-  - npm run test
-  - npm run coverage
-after_success:
-  - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
+  - npm run coverage && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
