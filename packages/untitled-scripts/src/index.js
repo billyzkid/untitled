@@ -1,6 +1,6 @@
 import spawn from "cross-spawn";
 
-export function execute(script, args) {
+export function run(script, args) {
   let code;
 
   switch (script) {
@@ -11,7 +11,7 @@ export function execute(script, args) {
       const result = spawn.sync("node", [require.resolve("./scripts/" + script)].concat(args), { stdio: "inherit" });
 
       if (result.signal) {
-        console.log(`The script failed because the process exited too early. This probably means it was killed or the system ran out of memory. Signal: ${result.signal}`);
+        console.log(`The "${script}" script failed because the process exited too early. This probably means it was killed or the system ran out of memory. Signal: ${result.signal}`);
         code = 1;
       } else {
         code = result.status;

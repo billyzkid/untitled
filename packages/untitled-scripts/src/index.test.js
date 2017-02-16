@@ -1,32 +1,45 @@
-import { execute } from "./index"
+import { run } from "./index"
+import spawn from "cross-spawn";
 
-describe("execute", () => {
-  test("should be an exported function", () => {
-    expect(execute).toBeInstanceOf(Function);
+jest.mock("cross-spawn");
+
+test("run function should be exported", () => {
+  expect(run).toBeInstanceOf(Function);
+});
+
+["build", "eject", "start", "test"].forEach((script) => {
+  test(`${script} script should fail`, () => {
+    spawn.sync = jest.fn(() => ({ signal: "SIGTERM", status: 1 }));
+    console.log = jest.fn();
+
+    const code = run(script);
+
+    expect(code).toBe(1);
+    expect(spawn.sync.mock.calls.length).toBe(1);
+    expect(console.log.mock.calls.length).toBe(1);
+    expect(console.log.mock.calls[0][0]).toBe(`The "${script}" script failed because the process exited too early. This probably means it was killed or the system ran out of memory. Signal: SIGTERM`);
   });
 
-  test("can run build script", () => {
-    const code = execute("build");
+  test(`${script} script should succeed`, () => {
+    spawn.sync = jest.fn(() => ({ status: 0 }));
+    console.log = jest.fn();
+
+    const code = run(script);
+
     expect(code).toBe(0);
+    expect(spawn.sync.mock.calls.length).toBe(1);
+    expect(console.log.mock.calls.length).toBe(0);
   });
+});
 
-  test("can run eject script", () => {
-    const code = execute("eject");
-    expect(code).toBe(0);
-  });
+test("unknown script should be detected", () => {
+  spawn.sync = jest.fn(() => ({ status: 0 }));
+  console.log = jest.fn();
 
-  test("can run start script", () => {
-    const code = execute("start");
-    expect(code).toBe(0);
-  });
+  const code = run("xyzzy");
 
-  test("can run test script", () => {
-    const code = execute("test");
-    expect(code).toBe(0);
-  });
-
-  test("can run unknown script", () => {
-    const code = execute("unknown");
-    expect(code).toBe(0);
-  });
+  expect(code).toBe(0);
+  expect(spawn.sync.mock.calls.length).toBe(0);
+  expect(console.log.mock.calls.length).toBe(1);
+  expect(console.log.mock.calls[0][0]).toBe(`Unknown script "xyzzy". Perhaps you need to update untitled-scripts? See: https://github.com/billyzkid/untitled/blob/master/README.md#updating`);
 });
