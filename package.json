@@ -15,21 +15,20 @@
   "devDependencies": {
     "coveralls": "^2.11.16",
     "dotenv": "^4.0.0",
-    "istanbul-combine": "^0.3.0",
+    "istanbul": "^0.4.5",
     "lerna": "^2.0.0-beta.37",
     "lerna-changelog": "^0.3.0",
     "rimraf": "^2.5.4"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "changelog": "node ./scripts/changelog",
     "clean": "node ./scripts/clean",
     "coverage": "lerna run coverage",
     "lint": "lerna run lint",
+    "postcoverage": "istanbul report json lcov text",
+    "postinstall": "lerna bootstrap",
     "precoverage": "rimraf ./coverage",
-    "postcoverage": "node ./scripts/postcoverage",
-    "postinstall": "npm run bootstrap",
     "publish": "lerna publish",
     "test": "lerna run test"
   }
