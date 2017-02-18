@@ -23,6 +23,7 @@
   "scripts": {
     "build": "lerna run build",
     "changelog": "node ./scripts/changelog",
+    "changelog2": "babel-node ./scripts/changelog2",
     "clean": "node ./scripts/clean",
     "coverage": "lerna run coverage",
     "lint": "lerna run lint",
