@@ -17,13 +17,13 @@
     "dotenv": "^4.0.0",
     "istanbul": "^0.4.5",
     "lerna": "^2.0.0-beta.37",
-    "lerna-changelog": "^0.3.0",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
     "rimraf": "^2.5.4"
   },
   "scripts": {
     "build": "lerna run build",
     "changelog": "node ./scripts/changelog",
-    "changelog2": "babel-node ./scripts/changelog2",
     "clean": "node ./scripts/clean",
     "coverage": "lerna run coverage",
     "lint": "lerna run lint",

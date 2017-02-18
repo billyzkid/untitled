@@ -1,4 +1,4 @@
-## Unreleased (2017-02-16)
+## Unreleased (2017-02-18)
 
 #### :nail_care: Enhancement
 * `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled-cli`, `untitled-scripts`, `untitled`

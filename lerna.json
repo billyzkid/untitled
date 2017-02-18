@@ -1,16 +1,5 @@
 {
   "lerna": "2.0.0-beta.37",
   "version": "independent",
-  "hoist": true,
-  "changelog": {
-    "repo": "billyzkid/untitled",
-    "labels": {
-      "new feature": ":rocket: New Feature",
-      "breaking change": ":boom: Breaking Change",
-      "bug fix": ":bug: Bug Fix",
-      "enhancement": ":nail_care: Enhancement",
-      "documentation": ":memo: Documentation",
-      "internal": ":house: Internal"
-    }
-  }
+  "hoist": true
 }

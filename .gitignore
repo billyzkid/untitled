@@ -1,5 +1,6 @@
 build
 coverage
 node_modules
-*.log
+.changelog
 .env
+*.log
