@@ -1,5 +1,4 @@
 const childProcess = require("child_process");
-const dotenv = require("dotenv");
 const fs = require("fs");
 const minimist = require("minimist");
 const mkdirp = require("mkdirp");
@@ -8,15 +7,6 @@ const path = require("path");
 
 process.chdir(__dirname);
 
-dotenv.config({ path: "../.env" });
-
-// GitHub API token (see https://github.com/settings/tokens)
-const githubApiToken = process.env.GITHUB_API_TOKEN;
-
-if (!githubApiToken) {
-  throw new Error("Missing GitHub API token");
-}
-
 // GitHub repository name
 const repository = packageJson.repository;
 
@@ -24,8 +14,13 @@ if (!repository) {
   throw new Error("Missing GitHub repository");
 }
 
+// GitHub API token (see https://github.com/settings/tokens)
+// const githubApiToken = "4e295f0e9e0ebc7089a9f8d3204d0832c09ac6d2";
+const githubApiToken = process.env.GITHUB_API_TOKEN;
+
 // Optional directory for caching API responses to avoid throttling
-const cacheDir = "../.changelog";
+// const cacheDir = "../.changelog";
+const cacheDir = "";
 
 // Optional list of ignored committers (exact or partial match), e.g. bot agents
 const ignoredCommitters = [];
@@ -122,7 +117,11 @@ class GithubApi {
       user: `https://api.github.com/users/${key}`
     }[type];
 
-    return execSync(`curl -H 'Authorization: token ${githubApiToken}' --silent --globoff ${url}`);
+    if (githubApiToken) {
+      return execSync(`curl --silent --globoff -H \"Authorization: token ${githubApiToken}\" ${url}`);
+    } else {
+      return execSync(`curl --silent --globoff ${url}`);
+    }
   }
 }
 
@@ -240,13 +239,17 @@ class Changelog {
   }
 
   getLastTag() {
-    return execSync("git describe --abbrev=0 --tags");
+    try {
+      return execSync("git describe --abbrev=0 --tags 2> nul");
+    } catch (error) {
+      return undefined;
+    }
   }
 
   getListOfCommits() {
-    const tagFrom = this.tagFrom || this.getLastTag();
+    const tagFrom = this.tagFrom || this.getLastTag() || "";
     const tagTo = this.tagTo || "";
-    const tagsRange = tagFrom + ".." + tagTo;
+    const tagsRange = (tagFrom || tagTo) ? tagFrom + ".." + tagTo : "";
     const commits = execSync("git log --oneline --pretty=\"%h;%D;%s;%cd\" --date=short " + tagsRange);
 
     if (commits) {

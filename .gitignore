@@ -3,5 +3,4 @@ coverage
 node_modules
 .changelog
 .vscode
-.env
 *.log
