@@ -22,10 +22,10 @@
     "rimraf": "^2.5.4"
   },
   "scripts": {
+    "authors": "node ./scripts/authors --format=text --out-file=./AUTHORS",
     "build": "lerna run build",
     "changelog": "node ./scripts/changelog",
     "clean": "node ./scripts/clean",
-    "contributors": "node ./scripts/contributors",
     "coverage": "lerna run coverage",
     "lint": "lerna run lint",
     "postcoverage": "istanbul report json lcov text",

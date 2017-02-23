@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
+const fs = require("fs");
+const minimist = require("minimist");
 const packageJson = require("../package.json");
-
-process.chdir(__dirname);
 
 const apiEndpoint = "https://api.github.com";
 const apiToken = process.env.GITHUB_API_TOKEN;
@@ -24,7 +24,7 @@ function request(method, url) {
 
   return fetch(url, { method, headers }).then((response) => {
     if (!response.ok) {
-      throw new Error(`Request failed with response: ${response.status} (${response.statusText})`);
+      throw new Error(`Request failed with response status ${response.status} (${response.statusText}): ${url}`);
     }
 
     return response;
@@ -66,8 +66,56 @@ function get(url, paged, items = []) {
   });
 }
 
+function format(type, data) {
+  switch (type) {
+    case "json":
+      return formatJson(data);
+    case "text":
+      return formatText(data);
+    default:
+      throw new Error(`Unknown format: ${type}`);
+  }
+}
+
+function formatJson(data) {
+  return JSON.stringify(data, null, 2);
+}
+
+function formatText(data) {
+  return data.map((c) => {
+    const name = (c.user && c.user.name) ? c.user.name : c.login;
+    const email = (c.user && c.user.email) ? c.user.email : null;
+    const url = (c.user && c.user.html_url) ? c.user.html_url : c.html_url;
+
+    if (email && url) {
+      return `${name} <${email}> (${url})`;
+    } else if (email) {
+      return `${name} <${email}>`;
+    } else if (url) {
+      return `${name} (${url})`;
+    } else {
+      return `${name}`;
+    }
+  }).sort().join("\n");
+}
+
+const options = minimist(process.argv.slice(2), {
+  default: {
+    "format": "text",
+    "out-file": ""
+  }
+});
+
 get(`/repos/${repo}/contributors`, true).then((data) => {
-  console.log(data);
+  const promises = data.filter((c) => c.url).map((c) => get(c.url).then((u) => c.user = u));
+  return Promise.all(promises).then(() => data);
+}).then((data) => {
+  const output = format(options.format, data);
+  if (options["out-file"]) {
+    fs.writeFileSync(options["out-file"], output);
+  } else {
+    console.log(output);
+  }
 }).catch((error) => {
   console.error(error);
 });
