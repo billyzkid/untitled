@@ -1,75 +1,73 @@
+const fetch = require("node-fetch");
 const packageJson = require("../package.json");
-const requestPromise = require("request-promise");
 
 process.chdir(__dirname);
 
-const githubApiHost = "https://api.github.com";
-const githubApiToken = process.env.GITHUB_API_TOKEN;
-const githubRepo = packageJson.repository;
+const apiEndpoint = "https://api.github.com";
+const apiToken = process.env.GITHUB_API_TOKEN;
+const userAgent = packageJson.name;
+const repo = packageJson.repository;
 
-function request(method, uri) {
-  if (uri.indexOf("//") === -1) {
-    uri = githubApiHost + uri;
+function request(method, url) {
+  if (!url.startsWith(apiEndpoint)) {
+    url = apiEndpoint + url;
   }
 
   const headers = {
-    "User-Agent": "Untitled"
+    "Accept": "application/vnd.github.v3+json",
+    "User-Agent": userAgent
   };
 
-  if (githubApiToken) {
-    headers["Authorization"] = `token ${githubApiToken}`;
+  if (apiToken) {
+    headers["Authorization"] = `token ${apiToken}`;
   }
 
-  const options = {
-    method,
-    uri,
-    headers,
-    json: true,
-    resolveWithFullResponse: true
-  };
+  return fetch(url, { method, headers }).then((response) => {
+    if (!response.ok) {
+      throw new Error(`Request failed with response: ${response.status} (${response.statusText})`);
+    }
 
-  return requestPromise(options);
+    return response;
+  });
 }
 
-function get(uri, paged) {
-  if (!paged) {
-    return request("GET", uri);
-  } else {
-    const body = arguments[2] || [];
-    return request("GET", uri).then((response) => {
-      if (response.body instanceof Array) {
-        body.push(...response.body);
-      } else if (response.body.items instanceof Array) {
-        body.push(...response.body.items);
-      } else {
-        throw new Error("Unexpected response body");
-      }
+function get(url, paged, items = []) {
+  return request("GET", url).then((response) => {
+    if (!paged) {
+      return response.json();
+    } else {
+      return response.json().then((data) => {
+        if (data instanceof Array) {
+          items.push(...data);
+        } else if (data.items instanceof Array) {
+          items.push(...data.items);
+        } else {
+          throw new Error("Unexpected response data");
+        }
 
-      if (response.headers.link) {
-        const links = response.headers.link.split(",");
-        const nextUri = links.reduce((nextLink, link) => {
+        const linkHeader = response.headers.get("link");
+        const links = (linkHeader) ? linkHeader.split(", ") : [];
+        const nextUrl = links.reduce((nextLink, link) => {
           const matches = link.match(/^<(.*)>; rel="(.*)"$/);
-
           if (matches && matches[2] === "next") {
             return matches[1];
           } else {
             return nextLink;
           }
-        }, undefined);
+        }, null);
 
-        if (nextUri) {
-          return get(nextUri, paged, body);
+        if (nextUrl) {
+          return get(nextUrl, paged, items);
+        } else {
+          return items;
         }
-      }
-
-      response.body = body;
-      return response;
-    });
-  }
+      });
+    }
+  });
 }
 
-get(`/repos/${githubRepo}/contributors`, true).then((response) => {
-  console.log(response.body);
+get(`/repos/${repo}/contributors`, true).then((data) => {
+  console.log(data);
 }).catch((error) => {
   console.error(error);
 });
