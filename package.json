@@ -22,7 +22,7 @@
     "rimraf": "^2.5.4"
   },
   "scripts": {
-    "authors": "node ./scripts/authors --format=text --out-file=./AUTHORS",
+    "authors": "node ./scripts/authors",
     "build": "lerna run build",
     "changelog": "node ./scripts/changelog",
     "clean": "node ./scripts/clean",
