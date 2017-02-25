@@ -7,7 +7,7 @@ const options = minimist(process.argv.slice(2), {
   default: {
     "repo": packageJson.repository,
     "format": "text",
-    "out-file": ""
+    "out-file": "./AUTHORS"
   }
 });
 
