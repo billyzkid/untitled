@@ -4,237 +4,49 @@
 
 > The following commits have not been tagged with a release.
 
-### :question: Other
-
-* `untitled`
-
-  * New and improved changelog script (Will Allan)
-
-  * Update to authors (Will Allan)
-
-  * Better scripts (Will Allan)
-
-  * Added authors script (Will Allan)
-
-  * Use fetch (Will Allan)
-
-  * Updated contributors script (Will Allan)
-
-  * Added contributors script (Will Allan)
-
-  * Fixes #5 (Will Allan)
-
-  * Remove "Test" text (Will Allan)
-
-  * Update README.md (Will Allan)
-
-  * Updated changelog script (Will Allan)
-
 ### :memo: Documentation
 
 * `untitled`
 
   * [#4](https://github.com/billyzkid/untitled/pull/4) - Update README.md ([@billyzkid](https://github.com/billyzkid))
 
-## Test Release - Tue Feb 21 2017
-
 ### :question: Other
-
-* `__examples__`
-
-  * Fix dependencies (Will Allan)
-
-* `babel-preset-untitled`
-
-  * Cleanup (Will Allan)
-
-* `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled-author`, `untitled`
-
-  * Build source maps (Will Allan)
-
-* `babel-preset-untitled`, `eslint-plugin-untitled`
-
-  * Updated READMEs (Will Allan)
-
-* `babel-preset-untitled`, `eslint-plugin-untitled`, `untitled-author`
-
-  * Simplified test config (Will Allan)
-
-* `eslint-config-untitled`
-
-  * Uncomment (Will Allan)
-
-  * Fixed module.exports issue (Will Allan)
-
-* `eslint-plugin-untitled`
-
-  * Updated README (Will Allan)
-
-  * Delete build folder (Will Allan)
-
-* `example-extension`, `untitled-storyteller-client`, `untitled-storyteller-server`
-
-  * Delete empty repos (Will Allan)
 
 * `untitled`
 
-  * Updating changelog (Will Allan)
+  * Fixed line endings ([@billyzkid](https://github.com/billyzkid))
 
-  * Updating changelog (test) (Will Allan)
+  * New and improved changelog script ([@billyzkid](https://github.com/billyzkid))
 
-  * This resolves #2? (Will Allan)
+  * Update to authors ([@billyzkid](https://github.com/billyzkid))
 
-  * Changelog script (Will Allan)
+  * Better scripts ([@billyzkid](https://github.com/billyzkid))
 
-  * Added changelog script (Will Allan)
+  * Added authors script ([@billyzkid](https://github.com/billyzkid))
 
-  * Housekeeping (Will Allan)
+  * Use fetch ([@billyzkid](https://github.com/billyzkid))
 
-  * Updated changelog (Will Allan)
+  * Updated contributors script ([@billyzkid](https://github.com/billyzkid))
 
-  * Adding missing nuke folder (Will Allan)
+  * Added contributors script ([@billyzkid](https://github.com/billyzkid))
 
-  * Coveralls (Will Allan)
+  * Fixes #5 ([@billyzkid](https://github.com/billyzkid))
 
-  * Added coverage badge (Will Allan)
+  * Remove "Test" text ([@billyzkid](https://github.com/billyzkid))
 
-  * Updated lerna (Will Allan)
+  * Update README.md ([@billyzkid](https://github.com/billyzkid))
 
-  * Migrated nuke script to node (Will Allan)
+  * Updated changelog script ([@billyzkid](https://github.com/billyzkid))
 
-  * Force .sh scripts to have LF line endings (Will Allan)
+## Test Release - Tue Feb 21 2017
 
-  * Line endings (Will Allan)
+### :nail_care: Enhancement
 
-  * Remove bash test line (Will Allan)
+* `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled`, `untitled-cli`, `untitled-scripts`
 
-  * Updated untitled package (Will Allan)
+  * [#1](https://github.com/billyzkid/untitled/pull/1) - Test PR ([@billyzkid](https://github.com/billyzkid))
 
-  * Added .editorconfig (Will Allan)
-
-  * Added README links to packages (Will Allan)
-
-  * Added travis badge (Will Allan)
-
-  * Added travis (Will Allan)
-
-  * Remove travis (Will Allan)
-
-* `untitled`, `__examples__`
-
-  * Lerna commands (Will Allan)
-
-* `untitled`, `__examples__`, `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled-author`
-
-  * Remove hoist nd add nuke (Will Allan)
-
-* `untitled`, `__examples__`, `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled-author-scripts`, `untitled-author`, `untitled-storyteller-client`, `untitled-storyteller-server`
-
-  * Line endings (Will Allan)
-
-* `untitled`, `__examples__`, `eslint-config-untitled`, `eslint-plugin-untitled`
-
-  * Use eslint plugin everywhere (Will Allan)
-
-* `untitled`, `__examples__`, `untitled-author`
-
-  * Fixing line endings (Will Allan)
-
-* `untitled`, `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `example-story`, `untitled-cli`, `untitled-scripts`
-
-  * Improved coverage (Will Allan)
-
-* `untitled`, `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled-author`
-
-  * Jest (Will Allan)
-
-  * Lerna hoist (Will Allan)
-
-  * Use root .babelrc and .eslintrc (Will Allan)
-
-  * Config (Will Allan)
-
-* `untitled`, `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled-author-scripts`
-
-  * Cleanup (Will Allan)
-
-* `untitled`, `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled-author-scripts`, `untitled-author`, `untitled-storyteller-client`, `untitled-storyteller-server`
-
-  * Line endings (Will Allan)
-
-* `untitled`, `babel-preset-untitled`, `eslint-config-untitled`, `untitled-author`
-
-  * Updates (Will Allan)
-
-* `untitled`, `babel-preset-untitled`, `eslint-plugin-untitled`
-
-  * Updated READMEs (Will Allan)
-
-  * Updated preset (Will Allan)
-
-* `untitled`, `eslint-config-untitled`
-
-  * Hoist (Will Allan)
-
-  * Comment out broken tests (Will Allan)
-
-  * Fixed stuff (Will Allan)
-
-* `untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`
-
-  * Cleanup (Will Allan)
-
-  * ESLint plugin (Will Allan)
-
-* `untitled`, `eslint-plugin-untitled`
-
-  * Updates READMEs (Will Allan)
-
-  * Updates (Will Allan)
-
-* `untitled`, `example-extension`, `example-story`, `untitled-author-scripts`, `untitled-author`, `untitled-cli`, `untitled-scripts`
-
-  * Updates (Will Allan)
-
-* `untitled`, `example-story`, `untitled-cli`, `untitled-scripts`
-
-  * Fixed build? (Will Allan)
-
-* `untitled`, `untitled-author`
-
-  * Lint (Will Allan)
-
-* `untitled`, `untitled-author-scripts`, `untitled-author`, `untitled-storyteller-client`, `untitled-storyteller-server`
-
-  * Initial commit (Will Allan)
-
-* `untitled`, `untitled-scripts`
-
-  * Cleanup and comments (Will Allan)
-
-* `untitled-author`
-
-  * Fixed tests (Will Allan)
-
-  * Fixed local module integration (Will Allan)
-
-  * Updates (Will Allan)
-
-  * Test plugin (Will Allan)
-
-  * Whitespace (Will Allan)
-
-* `untitled-author-scripts`, `untitled-author`
-
-  * Added scripts (Will Allan)
-
-* `untitled-cli`, `untitled-scripts`
-
-  * Added tests (Will Allan)
-
-* `untitled-scripts`
-
-  * Better tests (Will Allan)
+    This is a description of the the Test PR.
 
 ### :memo: Documentation
 
@@ -244,10 +56,196 @@
 
     Blah.
 
-### :nail_care: Enhancement
+### :question: Other
 
-* `untitled`, `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled-cli`, `untitled-scripts`
+* `__examples__`
 
-  * [#1](https://github.com/billyzkid/untitled/pull/1) - Test PR ([@billyzkid](https://github.com/billyzkid))
+  * Fix dependencies ([@billyzkid](https://github.com/billyzkid))
 
-    This is a description of the the Test PR.
+* `__examples__`, `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled`, `untitled-author`, `untitled-author-scripts`, `untitled-storyteller-client`, `untitled-storyteller-server`
+
+  * Line endings ([@billyzkid](https://github.com/billyzkid))
+
+* `__examples__`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled`
+
+  * Use eslint plugin everywhere ([@billyzkid](https://github.com/billyzkid))
+
+* `__examples__`, `untitled`
+
+  * Lerna commands ([@billyzkid](https://github.com/billyzkid))
+
+* `__examples__`, `untitled`, `untitled-author`
+
+  * Fixing line endings ([@billyzkid](https://github.com/billyzkid))
+
+* `babel-preset-untitled`
+
+  * Cleanup ([@billyzkid](https://github.com/billyzkid))
+
+* `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `example-story`, `untitled`, `untitled-cli`, `untitled-scripts`
+
+  * Improved coverage ([@billyzkid](https://github.com/billyzkid))
+
+* `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled`, `untitled-author`
+
+  * Build source maps ([@will-mlbam](https://github.com/will-mlbam))
+
+  * Jest ([@billyzkid](https://github.com/billyzkid))
+
+  * Remove hoist nd add nuke ([@billyzkid](https://github.com/billyzkid))
+
+  * Lerna hoist ([@billyzkid](https://github.com/billyzkid))
+
+  * Use root .babelrc and .eslintrc ([@billyzkid](https://github.com/billyzkid))
+
+  * Config ([@billyzkid](https://github.com/billyzkid))
+
+* `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled`, `untitled-author`, `untitled-author-scripts`, `untitled-storyteller-client`, `untitled-storyteller-server`
+
+  * Line endings ([@billyzkid](https://github.com/billyzkid))
+
+* `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled`, `untitled-author-scripts`
+
+  * Cleanup ([@billyzkid](https://github.com/billyzkid))
+
+* `babel-preset-untitled`, `eslint-config-untitled`, `untitled`, `untitled-author`
+
+  * Updates ([@billyzkid](https://github.com/billyzkid))
+
+* `babel-preset-untitled`, `eslint-plugin-untitled`
+
+  * Updated READMEs ([@billyzkid](https://github.com/billyzkid))
+
+* `babel-preset-untitled`, `eslint-plugin-untitled`, `untitled`
+
+  * Updated READMEs ([@billyzkid](https://github.com/billyzkid))
+
+  * Updated preset ([@billyzkid](https://github.com/billyzkid))
+
+* `babel-preset-untitled`, `eslint-plugin-untitled`, `untitled-author`
+
+  * Simplified test config ([@billyzkid](https://github.com/billyzkid))
+
+* `eslint-config-untitled`
+
+  * Uncomment ([@billyzkid](https://github.com/billyzkid))
+
+  * Fixed module.exports issue ([@billyzkid](https://github.com/billyzkid))
+
+* `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled`
+
+  * Cleanup ([@billyzkid](https://github.com/billyzkid))
+
+  * ESLint plugin ([@billyzkid](https://github.com/billyzkid))
+
+* `eslint-config-untitled`, `untitled`
+
+  * Hoist ([@billyzkid](https://github.com/billyzkid))
+
+  * Comment out broken tests ([@billyzkid](https://github.com/billyzkid))
+
+  * Fixed stuff ([@billyzkid](https://github.com/billyzkid))
+
+* `eslint-plugin-untitled`
+
+  * Updated README ([@billyzkid](https://github.com/billyzkid))
+
+  * Delete build folder ([@billyzkid](https://github.com/billyzkid))
+
+* `eslint-plugin-untitled`, `untitled`
+
+  * Updates READMEs ([@billyzkid](https://github.com/billyzkid))
+
+  * Updates ([@billyzkid](https://github.com/billyzkid))
+
+* `example-extension`, `example-story`, `untitled`, `untitled-author`, `untitled-cli`, `untitled-scripts`
+
+  * Updates ([@will-mlbam](https://github.com/will-mlbam))
+
+* `example-extension`, `untitled-storyteller-client`, `untitled-storyteller-server`
+
+  * Delete empty repos ([@billyzkid](https://github.com/billyzkid))
+
+* `example-story`, `untitled`, `untitled-cli`, `untitled-scripts`
+
+  * Fixed build? ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled`
+
+  * Updating changelog ([@billyzkid](https://github.com/billyzkid))
+
+  * Updating changelog (test) ([@billyzkid](https://github.com/billyzkid))
+
+  * This resolves #2? ([@billyzkid](https://github.com/billyzkid))
+
+  * Changelog script ([@billyzkid](https://github.com/billyzkid))
+
+  * Added changelog script ([@billyzkid](https://github.com/billyzkid))
+
+  * Housekeeping ([@billyzkid](https://github.com/billyzkid))
+
+  * Updated changelog ([@billyzkid](https://github.com/billyzkid))
+
+  * Adding missing nuke folder ([@billyzkid](https://github.com/billyzkid))
+
+  * Coveralls ([@billyzkid](https://github.com/billyzkid))
+
+  * Added coverage badge ([@billyzkid](https://github.com/billyzkid))
+
+  * Updated lerna ([@billyzkid](https://github.com/billyzkid))
+
+  * Migrated nuke script to node ([@will-mlbam](https://github.com/will-mlbam))
+
+  * Force .sh scripts to have LF line endings ([@billyzkid](https://github.com/billyzkid))
+
+  * Line endings ([@billyzkid](https://github.com/billyzkid))
+
+  * Remove bash test line ([@billyzkid](https://github.com/billyzkid))
+
+  * Updated untitled package ([@billyzkid](https://github.com/billyzkid))
+
+  * Added .editorconfig ([@billyzkid](https://github.com/billyzkid))
+
+  * Added README links to packages ([@billyzkid](https://github.com/billyzkid))
+
+  * Added travis badge ([@billyzkid](https://github.com/billyzkid))
+
+  * Added travis ([@billyzkid](https://github.com/billyzkid))
+
+  * Remove travis ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled`, `untitled-author`
+
+  * Lint ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled`, `untitled-author`, `untitled-author-scripts`, `untitled-storyteller-client`, `untitled-storyteller-server`
+
+  * Initial commit ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled`, `untitled-scripts`
+
+  * Cleanup and comments ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled-author`
+
+  * Fixed tests ([@billyzkid](https://github.com/billyzkid))
+
+  * Fixed local module integration ([@billyzkid](https://github.com/billyzkid))
+
+  * Updates ([@billyzkid](https://github.com/billyzkid))
+
+  * Test plugin ([@billyzkid](https://github.com/billyzkid))
+
+  * Whitespace ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled-author`, `untitled-author-scripts`
+
+  * Added scripts ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled-cli`, `untitled-scripts`
+
+  * Added tests ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled-scripts`
+
+  * Better tests ([@billyzkid](https://github.com/billyzkid))

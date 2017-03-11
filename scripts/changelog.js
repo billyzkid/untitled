@@ -12,7 +12,7 @@ const options = minimist(args);
 const repo = options.repo || packageJson.repository;
 const format = options.format || "markdown";
 const outputFile = options["out-file"] || "./CHANGELOG.md";
-const packageDir = options["pkg-dir"] || "./packages";
+const packagesDir = options["pkg-dir"] || "./packages";
 const packageName = options["pkg-name"] || packageJson.name;
 const tagFrom = options["tag-from"];
 const tagTo = options["tag-to"];
@@ -55,13 +55,12 @@ function getCommits() {
     tagRange = "";
   }
 
-  return exec(`git log --pretty="%H;%an;%cI;%s;%D" --first-parent ${tagRange}`, { encoding: "utf8" }).then((result) => {
-    const promises = [];
+  return exec(`git log --pretty="%H;%s;%D" --first-parent ${tagRange}`, { encoding: "utf8" }).then((log) => {
     const tags = [];
     const tagPrefix = "tag: ";
 
-    const commits = result.split("\n").filter((line) => line).map((line) => {
-      const [sha, author, date, subject, refs] = line.split(";");
+    const promises = log.split("\n").filter((line) => line).map((line) => {
+      const [sha, subject, refs] = line.split(";");
       const refTags = refs.split(", ").filter((ref) => ref.startsWith(tagPrefix)).map((ref) => ref.slice(tagPrefix.length));
 
       if (refTags.length > 0) {
@@ -69,29 +68,42 @@ function getCommits() {
         tags.push(...refTags);
       }
 
-      const releaseTag = (tags.length > 0) ? tags[0] : null;
-      const release = null;
-
+      const tag = (tags.length > 0) ? tags[0] : null;
       const issueNumberMatch = subject.match(/^Merge pull request #(\d+)/);
-      const issueNumber = (issueNumberMatch) ? parseInt(issueNumberMatch[1]) : null;
-      const issue = null;
+      const issueNumber = (issueNumberMatch) ? issueNumberMatch[1] : null;
 
-      return { sha, author, date, subject, refs, releaseTag, release, issueNumber, issue };
+      return github.get(`/repos/${repo}/commits/${sha}`).then((commit) => {
+        const promises = [commit];
+
+        if (tag) {
+          promises.push(github.get(`/repos/${repo}/releases/tags/${tag}`));
+        } else {
+          promises.push(null);
+        }
+
+        if (issueNumber) {
+          promises.push(github.get(`/repos/${repo}/issues/${issueNumber}`));
+        } else {
+          promises.push(null);
+        }
+
+        return Promise.all(promises);
+      }, (error) => {
+        console.warn(`Skipping commit ${sha}: Verify all local commits have been pushed to the remote repository.`);
+        console.warn(error);
+
+        return [];
+      }).then(([commit, release, issue]) => {
+        if (commit) {
+          commit.release = release;
+          commit.issue = issue;
+        }
+
+        return commit;
+      });
     });
 
-    promises.push(...commits.map((commit) => {
-      return exec(`git show -m --name-only --pretty="format:" --first-parent ${commit.sha}`, { encoding: "utf8" }).then((result) => commit.files = result.split("\n").filter((line) => line));
-    }));
-
-    promises.push(...commits.filter((commit) => commit.releaseTag).map((commit) => {
-      return github.get(`/repos/${repo}/releases/tags/${commit.releaseTag}`).then((release) => commit.release = release);
-    }));
-
-    promises.push(...commits.filter((commit) => commit.issueNumber).map((commit) => {
-      return github.get(`/repos/${repo}/issues/${commit.issueNumber}`).then((issue) => commit.issue = issue);
-    }));
-
-    return Promise.all(promises).then(() => commits);
+    return Promise.all(promises).then((commits) => commits.filter((commit) => commit));
   });
 }
 
@@ -113,8 +125,12 @@ function getCommitsByRelease(commits) {
 }
 
 function getCommitsByLabel(commits) {
+  const labels = Object.keys(headings);
+
   commits = commits.reduce((obj, commit) => {
-    Object.keys(headings).forEach((key) => {
+    labels.forEach((label) => {
+      const key = label;
+
       if (key === unlabeledLabel && commit.issue && commit.issue.labels.some((label) => label.name in headings)) {
         return;
       } else if (key !== unlabeledLabel && (!commit.issue || !commit.issue.labels.some((label) => label.name === key))) {
@@ -122,7 +138,7 @@ function getCommitsByLabel(commits) {
       }
 
       if (!obj[key]) {
-        obj[key] = { label: key, commits: [commit] };
+        obj[key] = { label, commits: [commit] };
       } else {
         obj[key].commits.push(commit);
       }
@@ -131,12 +147,24 @@ function getCommitsByLabel(commits) {
     return obj;
   }, {});
 
-  return Object.keys(commits).map((key) => commits[key]);
+  return Object.keys(commits).sort((a, b) => labels.indexOf(a) - labels.indexOf(b)).map((key) => commits[key]);
 }
 
 function getCommitsByPackages(commits) {
+  const packagesPath = path.resolve(packagesDir);
+
   commits = commits.reduce((obj, commit) => {
-    const packages = getPackages(commit);
+    const packageNames = (commit.files.length > 0) ? commit.files.map((file) => {
+      const filePath = path.resolve(file.filename);
+
+      if (filePath.startsWith(packagesPath)) {
+        return filePath.slice(packagesPath.length + 1).split(path.sep, 1)[0];
+      } else {
+        return packageName;
+      }
+    }) : [packageName];
+
+    const packages = [...new Set(packageNames)].sort();
     const key = packages.toString();
 
     if (!obj[key]) {
@@ -151,33 +179,16 @@ function getCommitsByPackages(commits) {
   return Object.keys(commits).sort().map((key) => commits[key]);
 }
 
-function getPackages(commit) {
-  const packagePath = path.resolve(packageDir);
-  const packages = (commit.files.length > 0) ? commit.files.map((file) => {
-    const filePath = path.resolve(file);
-
-    if (filePath.startsWith(packagePath)) {
-      return filePath.slice(packagePath.length + 1).split(path.sep, 1)[0];
-    } else {
-      return packageName;
-    }
-  }) : [packageName];
-
-  return [...new Set(packages)];
-}
-
 function formatJson(commits) {
   return JSON.stringify(commits, null, 2);
 }
 
 function formatMarkdown(commits) {
   let markdown = "# Changelog";
-  const commitsByRelease = getCommitsByRelease(commits);
 
-  commitsByRelease.forEach((obj) => {
+  getCommitsByRelease(commits).forEach((obj) => {
     const releaseHeading = (obj.release) ? `${obj.release.name.trim()} - ${new Date(obj.release.published_at).toDateString()}` : "Unreleased";
     const releaseBody = (obj.release) ? obj.release.body.trim() : "The following commits have not been tagged with a release."
-    const commitsByLabel = getCommitsByLabel(obj.commits);
 
     markdown += `${os.EOL}${os.EOL}## ${releaseHeading}`;
 
@@ -185,19 +196,18 @@ function formatMarkdown(commits) {
       markdown += `${os.EOL}${os.EOL}> ${releaseBody}`;
     }
 
-    commitsByLabel.forEach((obj) => {
+    getCommitsByLabel(obj.commits).forEach((obj) => {
       const labelHeading = headings[obj.label];
-      const commitsByPackages = getCommitsByPackages(obj.commits);
 
       markdown += `${os.EOL}${os.EOL}### ${labelHeading}`;
 
-      commitsByPackages.forEach((obj) => {
+      getCommitsByPackages(obj.commits).forEach((obj) => {
         const packagesHeading = obj.packages.map((package) => `\`${package}\``).join(", ");
 
         markdown += `${os.EOL}${os.EOL}* ${packagesHeading}`;
 
         obj.commits.forEach((commit) => {
-          const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.trim()} ([@${commit.issue.user.login}](${commit.issue.user.html_url}))` : `${commit.subject.trim()} (${commit.author})`
+          const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.trim()} ([@${commit.author.login}](${commit.author.html_url}))` : `${commit.commit.message.trim()} ([@${commit.author.login}](${commit.author.html_url}))`
           const commitBody = (commit.issue) ? commit.issue.body.trim() : null;
 
           markdown += `${os.EOL}${os.EOL}  * ${commitHeading.replace(/\n/g, "\n    ")}`;
