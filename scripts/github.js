@@ -1,5 +1,8 @@
+const dotenv = require("dotenv");
 const fetch = require("node-fetch");
 const packageJson = require("../package.json");
+
+dotenv.config();
 
 const apiEndpoint = "https://api.github.com";
 const apiToken = process.env.GITHUB_API_TOKEN;

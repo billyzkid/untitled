@@ -3,27 +3,31 @@ const github = require("./github");
 const minimist = require("minimist");
 const packageJson = require("../package.json");
 
-const options = minimist(process.argv.slice(2), {
-  default: {
-    "repo": packageJson.repository,
-    "format": "text",
-    "out-file": "./AUTHORS"
-  }
-});
+const args = process.argv.slice(2);
+const options = minimist(args);
 
-const repo = options.repo;
-const format = options.format;
-const outputFile = options["out-file"];
+const repo = options.repo || packageJson.repository;
+const format = options.format || "text";
+const outputFile = options["out-file"] || "./AUTHORS";
 
-function formatJson(data) {
-  return JSON.stringify(data, null, 2);
+function getContributors() {
+  return github.get(`/repos/${repo}/contributors?per_page=100`, true).then((contributors) => {
+    const promises = contributors.map((contributor) => github.get(contributor.url).then((user) => contributor.user = user));
+
+    return Promise.all(promises).then(() => contributors);
+  });
 }
 
-function formatText(data) {
-  return data.map((c) => {
-    const name = (c.user && c.user.name) ? c.user.name : c.login;
-    const email = (c.user && c.user.email) ? c.user.email : null;
-    const url = (c.user && c.user.html_url) ? c.user.html_url : c.html_url;
+function formatJson(contributors) {
+  return JSON.stringify(contributors, null, 2);
+}
+
+function formatText(contributors) {
+  return contributors.map((contributor) => {
+    const user = contributor.user;
+    const name = (user && user.name) ? user.name : contributor.login;
+    const email = (user && user.email) ? user.email : null;
+    const url = (user && user.html_url) ? user.html_url : contributor.html_url;
 
     if (email && url) {
       return `${name} <${email}> (${url})`;
@@ -37,15 +41,12 @@ function formatText(data) {
   }).sort().join("\n");
 }
 
-github.get(`/repos/${repo}/contributors`, true).then((data) => {
-  const promises = data.filter((c) => c.url).map((c) => github.get(c.url).then((u) => c.user = u));
-  return Promise.all(promises).then(() => data);
-}).then((data) => {
+getContributors().then((contributors) => {
   switch (format) {
     case "json":
-      return formatJson(data);
+      return formatJson(contributors);
     case "text":
-      return formatText(data);
+      return formatText(contributors);
     default:
       throw new Error(`Unknown format: ${format}`);
   }
