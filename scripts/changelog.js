@@ -2,6 +2,7 @@ const childProcess = require("child_process");
 const fs = require("fs");
 const github = require("./github");
 const minimist = require("minimist");
+const os = require("os");
 const packageJson = require("../package.json");
 const path = require("path");
 
@@ -26,7 +27,7 @@ const headings = {
   "enhancement": ":nail_care: Enhancement",
   "documentation": ":memo: Documentation",
   "internal": ":house: Internal",
-  [unlabeledLabel]: ":question Other"
+  [unlabeledLabel]: ":question: Other"
 };
 
 function exec(command, options) {
@@ -178,31 +179,31 @@ function formatMarkdown(commits) {
     const releaseBody = (obj.release) ? obj.release.body.trim() : "The following commits have not been tagged with a release."
     const commitsByLabel = getCommitsByLabel(obj.commits);
 
-    markdown += `\n\n## ${releaseHeading}`;
+    markdown += `${os.EOL}${os.EOL}## ${releaseHeading}`;
 
     if (releaseBody) {
-      markdown += `\n\n> ${releaseBody}`;
+      markdown += `${os.EOL}${os.EOL}> ${releaseBody}`;
     }
 
     commitsByLabel.forEach((obj) => {
       const labelHeading = headings[obj.label];
       const commitsByPackages = getCommitsByPackages(obj.commits);
 
-      markdown += `\n\n### ${labelHeading}`;
+      markdown += `${os.EOL}${os.EOL}### ${labelHeading}`;
 
       commitsByPackages.forEach((obj) => {
         const packagesHeading = obj.packages.map((package) => `\`${package}\``).join(", ");
 
-        markdown += `\n\n* ${packagesHeading}`;
+        markdown += `${os.EOL}${os.EOL}* ${packagesHeading}`;
 
         obj.commits.forEach((commit) => {
           const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.trim()} ([@${commit.issue.user.login}](${commit.issue.user.html_url}))` : `${commit.subject.trim()} (${commit.author})`
           const commitBody = (commit.issue) ? commit.issue.body.trim() : null;
 
-          markdown += `\n\n  * ${commitHeading.replace(/\n/g, "\n    ")}`;
+          markdown += `${os.EOL}${os.EOL}  * ${commitHeading.replace(/\n/g, "\n    ")}`;
 
           if (commitBody) {
-            markdown += `\n\n    ${commitBody.replace(/\n/g, "\n    ")}`;
+            markdown += `${os.EOL}${os.EOL}    ${commitBody.replace(/\n/g, "\n    ")}`;
           }
         });
       });

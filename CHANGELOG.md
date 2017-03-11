@@ -4,9 +4,11 @@
 
 > The following commits have not been tagged with a release.
 
-### :question Other
+### :question: Other
 
 * `untitled`
+
+  * New and improved changelog script (Will Allan)
 
   * Update to authors (Will Allan)
 
@@ -26,6 +28,8 @@
 
   * Update README.md (Will Allan)
 
+  * Updated changelog script (Will Allan)
+
 ### :memo: Documentation
 
 * `untitled`
@@ -34,7 +38,7 @@
 
 ## Test Release - Tue Feb 21 2017
 
-### :question Other
+### :question: Other
 
 * `__examples__`
 
@@ -73,8 +77,6 @@
   * Delete empty repos (Will Allan)
 
 * `untitled`
-
-  * Updated changelog script (Will Allan)
 
   * Updating changelog (Will Allan)
 

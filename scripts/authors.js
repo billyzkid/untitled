@@ -1,6 +1,7 @@
 const fs = require("fs");
 const github = require("./github");
 const minimist = require("minimist");
+const os = require("os");
 const packageJson = require("../package.json");
 
 const args = process.argv.slice(2);
@@ -38,7 +39,7 @@ function formatText(contributors) {
     } else {
       return `${name}`;
     }
-  }).sort().join("\n");
+  }).sort().join(os.EOL);
 }
 
 getContributors().then((contributors) => {
