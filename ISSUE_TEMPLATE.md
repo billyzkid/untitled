@@ -7,6 +7,7 @@ Often, issues are resolved by corfirming your development environment meets the 
 Before submitting the issue, please verify it still reproducible after running the following commands in the root folder:
 
 ```
+git pull
 npm install -g npm
 npm install -g rimraf
 npm run clean
