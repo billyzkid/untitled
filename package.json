@@ -12,6 +12,9 @@
   "repository": "billyzkid/untitled",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": ">=6"
+  },
   "devDependencies": {
     "coveralls": "^2.11.16",
     "dotenv": "^4.0.0",

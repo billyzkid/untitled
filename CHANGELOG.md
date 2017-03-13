@@ -14,6 +14,8 @@
 
 * `untitled`
 
+  * Added more stuff ([@billyzkid](https://github.com/billyzkid))
+
   * Fixed ([@billyzkid](https://github.com/billyzkid))
 
   * Test local commit ([@billyzkid](https://github.com/billyzkid))
@@ -34,13 +36,11 @@
 
   * Added contributors script ([@billyzkid](https://github.com/billyzkid))
 
-  * Fixes #5 ([@billyzkid](https://github.com/billyzkid))
+  * Fixes [#5](https://github.com/billyzkid/untitled/issues/5) ([@billyzkid](https://github.com/billyzkid))
 
   * Remove "Test" text ([@billyzkid](https://github.com/billyzkid))
 
   * Update README.md ([@billyzkid](https://github.com/billyzkid))
-
-  * Updated changelog script ([@billyzkid](https://github.com/billyzkid))
 
 ## Test Release - Tue Feb 21 2017
 
@@ -176,11 +176,13 @@
 
 * `untitled`
 
+  * Updated changelog script ([@billyzkid](https://github.com/billyzkid))
+
   * Updating changelog ([@billyzkid](https://github.com/billyzkid))
 
   * Updating changelog (test) ([@billyzkid](https://github.com/billyzkid))
 
-  * This resolves #2? ([@billyzkid](https://github.com/billyzkid))
+  * This resolves [#2](https://github.com/billyzkid/untitled/issues/2)? ([@billyzkid](https://github.com/billyzkid))
 
   * Changelog script ([@billyzkid](https://github.com/billyzkid))
 

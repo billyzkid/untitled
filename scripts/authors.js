@@ -24,7 +24,7 @@ function formatJson(contributors) {
 }
 
 function formatText(contributors) {
-  return contributors.map((contributor) => {
+  const authors = contributors.map((contributor) => {
     const user = contributor.user;
     const name = (user && user.name) ? user.name : contributor.login;
     const email = (user && user.email) ? user.email : null;
@@ -39,7 +39,9 @@ function formatText(contributors) {
     } else {
       return `${name}`;
     }
-  }).sort().join(os.EOL);
+  });
+
+  return authors.sort().join(os.EOL);
 }
 
 getContributors().then((contributors) => {

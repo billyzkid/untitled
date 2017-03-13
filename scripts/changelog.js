@@ -17,6 +17,10 @@ const packageName = options["pkg-name"] || packageJson.name;
 const tagFrom = options["tag-from"];
 const tagTo = options["tag-to"];
 
+const newlineSearch = /\n/g;
+const newlineReplacement = "\n    ";
+const commitIssueSearch = /(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved) #(\d+)/gi;
+const commitIssueReplacement = `$1 [#$2](https://github.com/${repo}/issues/$2)`;
 const unreleasedTag = "___unreleased___";
 const unlabeledLabel = "___unlabeled___";
 
@@ -207,13 +211,13 @@ function formatMarkdown(commits) {
         markdown += `${os.EOL}${os.EOL}* ${packagesHeading}`;
 
         obj.commits.forEach((commit) => {
-          const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.trim()} ([@${commit.author.login}](${commit.author.html_url}))` : `${commit.commit.message.trim()} ([@${commit.author.login}](${commit.author.html_url}))`
-          const commitBody = (commit.issue) ? commit.issue.body.trim() : null;
+          const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.replace(commitIssueSearch, commitIssueReplacement).replace(newlineSearch, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))` : `${commit.commit.message.replace(commitIssueSearch, commitIssueReplacement).replace(newlineSearch, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))`
+          const commitBody = (commit.issue) ? commit.issue.body.replace(commitIssueSearch, commitIssueReplacement).replace(newlineSearch, newlineReplacement).trim() : null;
 
-          markdown += `${os.EOL}${os.EOL}  * ${commitHeading.replace(/\n/g, "\n    ")}`;
+          markdown += `${os.EOL}${os.EOL}  * ${commitHeading}`;
 
           if (commitBody) {
-            markdown += `${os.EOL}${os.EOL}    ${commitBody.replace(/\n/g, "\n    ")}`;
+            markdown += `${os.EOL}${os.EOL}    ${commitBody}`;
           }
         });
       });
