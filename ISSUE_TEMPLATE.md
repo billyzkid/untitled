@@ -2,11 +2,13 @@ If you are reporting a bug, please include the template below with the requested
 
 ### Can you reproduce the issue?
 
-Often, issues are resolved by verifying that the installed version of [node](https://nodejs.org) meets the minimum [package requirements](./package.json), updating [npm](https://www.npmjs.com/package/npm), and then installing/bootstrapping all [packages](./packages) from a clean, up-to-date local clone of the repository. Before submitting the issue, please verify you can reproduce it after running the following commands in the root folder:
+Often, issues are resolved by confirming your development environment meets the minimum [requirements](./README.md#Requirements), updating to the latest versions of [node](https://nodejs.org) and [npm](https://www.npmjs.com/package/npm), and then installing/bootstrapping all [packages](./packages) from a clean, up-to-date local repository.
+
+Before submitting the issue, please confirm that you can still reproduce it after running the following commands in the root folder:
 
 ```
 git pull
-npm install -g npm@latest
+npm install -g npm
 npm install -g rimraf
 npm run clean
 npm install

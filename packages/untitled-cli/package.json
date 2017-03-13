@@ -11,7 +11,7 @@
   "bugs": "https://github.com/billyzkid/untitled/issues",
   "repository": "billyzkid/untitled",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "preferGlobal": true,
   "bin": {
     "untitled": "./bin/untitled.js"
