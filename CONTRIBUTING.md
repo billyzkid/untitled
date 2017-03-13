@@ -26,4 +26,6 @@ Before submitting a pull request, please *ask first* to verify your addition is 
   * Open CHANGELOG.md and update the placeholders for release title, date, and description
   * Verify the changes to CHANGELOG.md, commit, and then push to the remote repository
 4. Create a new [release](https://github.com/billyzkid/untitled/releases/new) with the same title and description used above
-5. Run `npm run publish`
+5. Publish the release:
+  * Ensure you have an authenticated npm user account (i.e. run `npm adduser` or `npm login`)
+  * Run `npm run release`
