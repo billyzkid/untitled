@@ -4,7 +4,7 @@ If you are reporting a bug, please include this template and provide the request
 
 Often, issues are resolved by corfirming your development environment meets the minimum [requirements](https://github.com/billyzkid/untitled/blob/master/README.md#Requirements), updating to the latest versions of [node](https://nodejs.org) and [npm](https://www.npmjs.com/package/npm), and then re-installing/bootstrapping all [packages](https://github.com/billyzkid/untitled/tree/master/packages) from a clean, up-to-date local repository.
 
-Before submitting the issue, please verify it still reproducible after running the following commands in the root folder:
+Before submitting the issue, please verify it is still reproducible after running the following commands in the root folder:
 
 ```
 git pull
