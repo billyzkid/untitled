@@ -1,4 +1,4 @@
-# Contributing to Untitled
+# Contributing
 
 Have an idea for a new feature or an improvement to an existing one? Want to submit a bug fix? Thanks for your help!
 

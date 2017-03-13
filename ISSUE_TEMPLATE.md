@@ -1,13 +1,12 @@
+<!--
 If you are reporting a bug, please include this template and provide the requested information below. Otherwise, please replace this template with a thorough description of the issue.
+-->
 
-### Can you reproduce the issue?
+Often, issues are resolved by corfirming your development environment meets the minimum [requirements](https://github.com/billyzkid/untitled/blob/master/README.md#Requirements), updating to the latest versions of [node](https://nodejs.org) and [npm](https://www.npmjs.com/package/npm), and then re-installing/bootstrapping all [packages](https://github.com/billyzkid/untitled/tree/master/packages) from a clean, up-to-date local repository.
 
-Often, issues are resolved by confirming your development environment meets the minimum [requirements](https://github.com/billyzkid/untitled/blob/master/README.md#Requirements), updating to the latest versions of [node](https://nodejs.org) and [npm](https://www.npmjs.com/package/npm), and then installing/bootstrapping all [packages](https://github.com/billyzkid/untitled/tree/master/packages) from a clean, up-to-date local repository.
-
-Before submitting the issue, please confirm that you can still reproduce it after running the following commands in the root folder:
+Before submitting the issue, please verify it still reproducible after running the following commands in the root folder:
 
 ```
-git pull
 npm install -g npm
 npm install -g rimraf
 npm run clean
@@ -41,4 +40,4 @@ Next, specify the following:
 
 ### Reproducible demo
 
-Demonstrable issues get fixed faster! Please take the time to create a minimal test case that reproduces the issue and paste/attach the relevant code or demo link below.
+Please take the time to create a minimal demo that reproduces the issue and paste/attach the relevant code, steps, and/or links below. Demonstrable issues get fixed faster!
