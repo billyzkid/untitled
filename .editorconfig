@@ -9,3 +9,6 @@ insert_final_newline = false
 
 # See https://github.com/editorconfig/editorconfig/issues/226
 # end_of_line = lf
+
+[*.md]
+trim_trailing_whitespace = false

@@ -21,12 +21,12 @@ const unreleasedTag = "___unreleased___";
 const unlabeledLabel = "___unlabeled___";
 
 const headings = {
-  "new feature": ":rocket: New Feature",
-  "breaking change": ":boom: Breaking Change",
-  "bug fix": ":bug: Bug Fix",
-  "enhancement": ":nail_care: Enhancement",
-  "documentation": ":memo: Documentation",
-  "internal": ":house: Internal",
+  "change: new feature": ":rocket: New Feature",
+  "change: breaking change": ":boom: Breaking Change",
+  "change: bug fix": ":bug: Bug Fix",
+  "change: enhancement": ":nail_care: Enhancement",
+  "change: documentation": ":memo: Documentation",
+  "change: internal": ":house: Internal",
   [unlabeledLabel]: ":question: Other"
 };
 
@@ -187,8 +187,8 @@ function formatMarkdown(commits) {
   let markdown = "# Changelog";
 
   getCommitsByRelease(commits).forEach((obj) => {
-    const releaseHeading = (obj.release) ? `${obj.release.name.trim()} - ${new Date(obj.release.published_at).toDateString()}` : "Unreleased";
-    const releaseBody = (obj.release) ? obj.release.body.trim() : "The following commits have not been tagged with a release."
+    const releaseHeading = (obj.release) ? `${obj.release.name.trim()} - ${new Date(obj.release.published_at).toDateString()}` : "[RELEASE TITLE] - [RELEASE DATE]";
+    const releaseBody = (obj.release) ? obj.release.body.trim() : "[RELEASE DESCRIPTION]"
 
     markdown += `${os.EOL}${os.EOL}## ${releaseHeading}`;
 

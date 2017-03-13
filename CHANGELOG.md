@@ -1,8 +1,8 @@
 # Changelog
 
-## Unreleased
+## [RELEASE TITLE] - [RELEASE DATE]
 
-> The following commits have not been tagged with a release.
+> [RELEASE DESCRIPTION]
 
 ### :memo: Documentation
 
@@ -13,6 +13,10 @@
 ### :question: Other
 
 * `untitled`
+
+  * Fixed ([@billyzkid](https://github.com/billyzkid))
+
+  * Test local commit ([@billyzkid](https://github.com/billyzkid))
 
   * Fixed line endings ([@billyzkid](https://github.com/billyzkid))
 
