@@ -1,6 +1,6 @@
 # Contributing
 
-Have an idea for a new feature or an improvement to an existing one? Want to submit a bug fix? Thanks for your help!
+Have ideas for new features or improvements to existing ones? Want to submit a bug fix or better documentation? If so, we appreciate your help!
 
 Please review this document in order to make the contribution process easy and efficient for everyone involved.
 
@@ -8,7 +8,7 @@ Please review this document in order to make the contribution process easy and e
 
 Good pull requests, such as patches, improvements, and new features, are a fantastic help. They should remain focused in scope and avoid containing unrelated commits. They should also include a *test plan*, i.e. how you verified that your addition is working and complete.
 
-Before submitting a pull request, please *ask first* to verify your addition is in scope and not already planned or in progress by others. Generally, a related issue should exist with discussions for whatever you are proposing to submit.
+Before submitting a pull request, please *ask first* to verify your addition is in scope and not already planned or in progress. Generally, a related [issue](https://github.com/billyzkid/untitled/issues) should exist with discussions for whatever you propose to submit.
 
 ## Setting up a clone for local development
 
@@ -18,7 +18,7 @@ Before submitting a pull request, please *ask first* to verify your addition is 
 ## Cutting a release
 
 1. Tag each merged pull request in the release with the relevant [milestone](https://github.com/billyzkid/untitled/milestones) and then close the milestone
-2. Tag each merged pull request in the release with one or more [labels](https://github.com/billyzkid/untitled/labels) starting with `change:` to indicate the change(s) included in the PR
+2. Tag each merged pull request in the release with one or more [labels](https://github.com/billyzkid/untitled/labels) starting with `change:` to indicate the type of change(s) included in the PR
 3. Update the changelog:
   * Create a [GitHub personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
   * Create a .env file in the root folder containing the following line: `GITHUB_API_TOKEN=[YOUR TOKEN]`
