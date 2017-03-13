@@ -2,7 +2,7 @@ If you are reporting a bug, please include this template and provide the request
 
 ### Can you reproduce the issue?
 
-Often, issues are resolved by confirming your development environment meets the minimum [requirements](../README.md#Requirements), updating to the latest versions of [node](https://nodejs.org) and [npm](https://www.npmjs.com/package/npm), and then installing/bootstrapping all [packages](./packages) from a clean, up-to-date local repository.
+Often, issues are resolved by confirming your development environment meets the minimum [requirements](../blob/master/README.md#Requirements), updating to the latest versions of [node](https://nodejs.org) and [npm](https://www.npmjs.com/package/npm), and then installing/bootstrapping all [packages](./packages) from a clean, up-to-date local repository.
 
 Before submitting the issue, please confirm that you can still reproduce it after running the following commands in the root folder:
 
