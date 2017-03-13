@@ -12,7 +12,7 @@
 
 ## Requirements
 
-The requirements for local development are:
+The requirements for development are:
 
-* node >= 6
-* npm >= 4
+* [node](https://nodejs.org) (>=6)
+* [npm](https://www.npmjs.com/package/npm) (>=4)
