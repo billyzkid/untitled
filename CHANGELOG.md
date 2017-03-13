@@ -14,6 +14,8 @@
 
 * `untitled`
 
+  * Improvements ([@billyzkid](https://github.com/billyzkid))
+
   * Added more stuff ([@billyzkid](https://github.com/billyzkid))
 
   * Fixed ([@billyzkid](https://github.com/billyzkid))

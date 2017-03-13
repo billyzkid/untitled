@@ -1,10 +1,10 @@
-const childProcess = require("child_process");
 const fs = require("fs");
 const github = require("./github");
 const minimist = require("minimist");
 const os = require("os");
 const packageJson = require("../package.json");
 const path = require("path");
+const utilities = require("./utilities");
 
 const args = process.argv.slice(2);
 const options = minimist(args);
@@ -34,18 +34,6 @@ const headings = {
   [unlabeledLabel]: ":question: Other"
 };
 
-function exec(command, options) {
-  return new Promise((resolve, reject) => {
-    childProcess.exec(command, options, (error, stdout, stderr) => {
-      if (error) {
-        reject(stderr);
-      } else {
-        resolve(stdout);
-      }
-    });
-  });
-}
-
 function getCommits() {
   let tagRange;
 
@@ -59,7 +47,7 @@ function getCommits() {
     tagRange = "";
   }
 
-  return exec(`git log --pretty="%H;%s;%D" --first-parent ${tagRange}`, { encoding: "utf8" }).then((log) => {
+  return utilities.exec(`git log --pretty="%H;%s;%D" --first-parent ${tagRange}`, { encoding: "utf8" }).then((log) => {
     const tags = [];
     const tagPrefix = "tag: ";
 
