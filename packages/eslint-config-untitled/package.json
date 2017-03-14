@@ -13,7 +13,6 @@
   "bugs": "https://github.com/billyzkid/untitled/issues",
   "repository": "billyzkid/untitled",
   "license": "MIT",
-  "private": true,
   "main": "./build/base.js",
   "files": [
     "build"

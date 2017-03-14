@@ -8,7 +8,6 @@
     "example",
     "story"
   ],
-  "private": true,
   "dependencies": {
     "untitled-core": "^0.0.1"
   },
