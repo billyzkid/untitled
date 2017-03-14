@@ -35,7 +35,7 @@
     "postcoverage": "istanbul report json lcov text",
     "postinstall": "lerna bootstrap",
     "precoverage": "rimraf ./coverage",
-    "publish": "lerna publish",
+    "publish": "lerna publish --skip-git",
     "release": "node ./scripts/release",
     "test": "lerna run test"
   }
