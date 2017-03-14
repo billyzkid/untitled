@@ -70,4 +70,4 @@ function handleError(error) {
   process.exit(1);
 }
 
-getContributors().then(outputContributors).catch(utilities.handleError);
+getContributors().then(outputContributors).catch(handleError);

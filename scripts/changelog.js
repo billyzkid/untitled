@@ -48,27 +48,25 @@ function getCommits() {
   }
 
   return utilities.exec(`git log --pretty="%H;%s;%D" --first-parent ${tagRange}`, { encoding: "utf8" }).then((log) => {
-    const tags = [];
-    const tagPrefix = "tag: ";
+    let tags;
 
     const promises = log.split("\n").filter((line) => line).map((line) => {
       const [sha, subject, refs] = line.split(";");
-      const refTags = refs.split(", ").filter((ref) => ref.startsWith(tagPrefix)).map((ref) => ref.slice(tagPrefix.length));
+      const refTags = refs.split(", ").filter((ref) => ref.startsWith("tag: v")).map((ref) => ref.slice(5));
 
       if (refTags.length > 0) {
-        tags.length = 0;
-        tags.push(...refTags);
+        tags = refTags;
       }
 
-      const tag = (tags.length > 0) ? tags[0] : null;
+      const releaseTag = (tags) ? tags[0] : null;
       const issueNumberMatch = subject.match(/^Merge pull request #(\d+)/);
       const issueNumber = (issueNumberMatch) ? issueNumberMatch[1] : null;
 
       return github.get(`/repos/${repo}/commits/${sha}`).then((commit) => {
         const promises = [commit];
 
-        if (tag) {
-          promises.push(github.get(`/repos/${repo}/releases/tags/${tag}`).then(null, utilities.ignoreError));
+        if (releaseTag) {
+          promises.push(github.get(`/repos/${repo}/releases/tags/${releaseTag}`));
         } else {
           promises.push(null);
         }
@@ -235,4 +233,9 @@ function outputCommits(commits) {
   }
 }
 
-getCommits().then(outputCommits).catch(utilities.handleError);
+function handleError(error) {
+  console.error(error);
+  process.exit(1);
+}
+
+getCommits().then(outputCommits).catch(handleError);

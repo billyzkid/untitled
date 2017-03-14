@@ -4,6 +4,18 @@
 
 > [RELEASE DESCRIPTION]
 
+### :question: Other
+
+* `untitled`
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Fixes ([@billyzkid](https://github.com/billyzkid))
+
+## Test Release v0.0.5 - Mon Mar 13 2017
+
+> The body of the release...
+
 ### :memo: Documentation
 
 * `untitled`
