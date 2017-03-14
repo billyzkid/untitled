@@ -1,4 +1,4 @@
-# untitled
+# untitled-core
 
 > Core library and extensions for [Untitled](https://billyzkid.github.io/untitled/) authors and developers
 
@@ -11,7 +11,7 @@ This package includes the following:
 Install the package dependency.
 
 ```sh
-npm install --save untitled
+npm install --save untitled-core
 ```
 
 ## Usage

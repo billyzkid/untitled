@@ -1,15 +1,16 @@
 {
-  "name": "example-story",
+  "name": "untitled-example-story",
   "version": "0.0.1",
   "author": "Name <name@example.com> (http://name.example.com/)",
-  "description": "This is the story description",
+  "description": "This is the example story description",
   "keywords": [
     "untitled",
+    "example",
     "story"
   ],
   "private": true,
   "dependencies": {
-    "untitled": "^0.0.1"
+    "untitled-core": "^0.0.1"
   },
   "devDependencies": {
     "untitled-scripts": "^0.0.1"
