@@ -12,4 +12,14 @@ function exec(command, options) {
   });
 }
 
+function ignoreError(error) {
+}
+
+function handleError(error) {
+  console.error(error);
+  process.exit(1);
+}
+
 exports.exec = exec;
+exports.ignoreError = ignoreError;
+exports.handleError = handleError;

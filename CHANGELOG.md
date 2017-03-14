@@ -14,6 +14,24 @@
 
 * `untitled`
 
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Again ([@billyzkid](https://github.com/billyzkid))
+
+  * Crap ([@billyzkid](https://github.com/billyzkid))
+
   * Tons of stuff ([@billyzkid](https://github.com/billyzkid))
 
   * Improvements ([@billyzkid](https://github.com/billyzkid))
@@ -45,6 +63,22 @@
   * Remove "Test" text ([@billyzkid](https://github.com/billyzkid))
 
   * Update README.md ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled`, `untitled-cli`
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled-cli`
+
+  * $(echo 'Publish') ([@billyzkid](https://github.com/billyzkid))
+
+  * $(echo Publish ([@billyzkid](https://github.com/billyzkid))
+
+  * $(echo Publish ([@billyzkid](https://github.com/billyzkid))
+
+  * $(echo Publish ([@billyzkid](https://github.com/billyzkid))
 
 ## Test Release - Tue Feb 21 2017
 
