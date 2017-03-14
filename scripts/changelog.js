@@ -17,6 +17,7 @@ const packageName = options["pkg-name"] || packageJson.name;
 const tagFrom = options["tag-from"];
 const tagTo = options["tag-to"];
 
+const eol = os.EOL;
 const newlineSearch = /\n/g;
 const newlineReplacement = "\n    ";
 const commitIssueSearch = /(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved) #(\d+)/gi;
@@ -171,36 +172,36 @@ function formatCommitsAsJson(commits) {
 }
 
 function formatCommitsAsMarkdown(commits) {
-  let markdown = "# Changelog";
+  let markdown = `# Changelog${eol}`;
 
   groupCommitsByRelease(commits).forEach((obj) => {
     const releaseHeading = (obj.release) ? `${obj.release.name.trim()} - ${new Date(obj.release.published_at).toDateString()}` : "[RELEASE TITLE] - [RELEASE DATE]";
     const releaseBody = (obj.release) ? obj.release.body.trim() : "[RELEASE DESCRIPTION]"
 
-    markdown += `${os.EOL}${os.EOL}## ${releaseHeading}`;
+    markdown += `${eol}## ${releaseHeading}${eol}`;
 
     if (releaseBody) {
-      markdown += `${os.EOL}${os.EOL}> ${releaseBody}`;
+      markdown += `${eol}> ${releaseBody}${eol}`;
     }
 
     groupCommitsByLabel(obj.commits).forEach((obj) => {
       const labelHeading = headings[obj.label];
 
-      markdown += `${os.EOL}${os.EOL}### ${labelHeading}`;
+      markdown += `${eol}### ${labelHeading}${eol}`;
 
       groupCommitsByPackages(obj.commits).forEach((obj) => {
         const packagesHeading = obj.packages.map((package) => `\`${package}\``).join(", ");
 
-        markdown += `${os.EOL}${os.EOL}* ${packagesHeading}`;
+        markdown += `${eol}* ${packagesHeading}${eol}`;
 
         obj.commits.forEach((commit) => {
           const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.replace(commitIssueSearch, commitIssueReplacement).replace(newlineSearch, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))` : `${commit.commit.message.replace(commitIssueSearch, commitIssueReplacement).replace(newlineSearch, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))`
           const commitBody = (commit.issue) ? commit.issue.body.replace(commitIssueSearch, commitIssueReplacement).replace(newlineSearch, newlineReplacement).trim() : null;
 
-          markdown += `${os.EOL}${os.EOL}  * ${commitHeading}`;
+          markdown += `${eol}  * ${commitHeading}${eol}`;
 
           if (commitBody) {
-            markdown += `${os.EOL}${os.EOL}    ${commitBody}`;
+            markdown += `${eol}    ${commitBody}${eol}`;
           }
         });
       });

@@ -136,7 +136,13 @@
 
   * Fixed build? ([@billyzkid](https://github.com/billyzkid))
 
+* `example-story`, `untitled`, `untitled-core`, `untitled-example-story`
+
+  * Added unpublish script ([@billyzkid](https://github.com/billyzkid))
+
 * `untitled`
+
+  * Updated changelog ([@billyzkid](https://github.com/billyzkid))
 
   * More fixes ([@billyzkid](https://github.com/billyzkid))
 

@@ -11,10 +11,11 @@ const repo = options.repo || packageJson.repository;
 const format = options.format || "text";
 const outputFile = options["out-file"] || "./AUTHORS";
 
+const eol = os.EOL;
+
 function getContributors() {
   return github.get(`/repos/${repo}/contributors?per_page=100`, true).then((contributors) => {
     const promises = contributors.map((contributor) => github.get(contributor.url).then((user) => contributor.user = user));
-
     return Promise.all(promises).then(() => contributors);
   });
 }
@@ -31,15 +32,15 @@ function formatContributorsAsText(contributors) {
     const url = (user && user.html_url) ? user.html_url : contributor.html_url;
 
     if (email && url) {
-      return `${name} <${email}> (${url})`;
+      return `${name} <${email}> (${url})${eol}`;
     } else if (email) {
-      return `${name} <${email}>`;
+      return `${name} <${email}>${eol}`;
     } else if (url) {
-      return `${name} (${url})`;
+      return `${name} (${url})${eol}`;
     } else {
-      return `${name}`;
+      return `${name}${eol}`;
     }
-  }).sort().join(os.EOL);
+  }).sort().join("");
 }
 
 function outputContributors(contributors) {
