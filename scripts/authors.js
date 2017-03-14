@@ -19,11 +19,11 @@ function getContributors() {
   });
 }
 
-function formatJson(contributors) {
+function formatContributorsAsJson(contributors) {
   return JSON.stringify(contributors, null, 2);
 }
 
-function formatText(contributors) {
+function formatContributorsAsText(contributors) {
   return contributors.map((contributor) => {
     const user = contributor.user;
     const name = (user && user.name) ? user.name : contributor.login;
@@ -42,21 +42,32 @@ function formatText(contributors) {
   }).sort().join(os.EOL);
 }
 
-getContributors().then((contributors) => {
+function outputContributors(contributors) {
+  let output;
+
   switch (format) {
     case "json":
-      return formatJson(contributors);
+      output = formatContributorsAsJson(contributors);
+      break;
+
     case "text":
-      return formatText(contributors);
+      output = formatContributorsAsText(contributors);
+      break;
+
     default:
       throw new Error(`Unknown format: ${format}`);
   }
-}).then((output) => {
+
   if (outputFile) {
     fs.writeFileSync(outputFile, output);
   } else {
     console.log(output);
   }
-}).catch((error) => {
+}
+
+function handleError(error) {
   console.error(error);
-});
+  process.exit(1);
+}
+
+getContributors().then(outputContributors).catch(handleError);

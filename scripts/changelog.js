@@ -99,8 +99,8 @@ function getCommits() {
   });
 }
 
-function getCommitsByRelease(commits) {
-  commits = commits.reduce((obj, commit) => {
+function groupCommitsByRelease(commits) {
+  const groups = commits.reduce((obj, commit) => {
     const release = commit.release;
     const key = (release) ? release.tag_name : unreleasedTag;
 
@@ -113,13 +113,12 @@ function getCommitsByRelease(commits) {
     return obj;
   }, {});
 
-  return Object.keys(commits).map((key) => commits[key]);
+  return Object.keys(groups).map((key) => groups[key]);
 }
 
-function getCommitsByLabel(commits) {
+function groupCommitsByLabel(commits) {
   const labels = Object.keys(headings);
-
-  commits = commits.reduce((obj, commit) => {
+  const groups = commits.reduce((obj, commit) => {
     labels.forEach((label) => {
       const key = label;
 
@@ -139,13 +138,12 @@ function getCommitsByLabel(commits) {
     return obj;
   }, {});
 
-  return Object.keys(commits).sort((a, b) => labels.indexOf(a) - labels.indexOf(b)).map((key) => commits[key]);
+  return Object.keys(groups).sort((a, b) => labels.indexOf(a) - labels.indexOf(b)).map((key) => groups[key]);
 }
 
-function getCommitsByPackages(commits) {
+function groupCommitsByPackages(commits) {
   const packagesPath = path.resolve(packagesDir);
-
-  commits = commits.reduce((obj, commit) => {
+  const groups = commits.reduce((obj, commit) => {
     const packageNames = (commit.files.length > 0) ? commit.files.map((file) => {
       const filePath = path.resolve(file.filename);
 
@@ -168,17 +166,17 @@ function getCommitsByPackages(commits) {
     return obj;
   }, {});
 
-  return Object.keys(commits).sort().map((key) => commits[key]);
+  return Object.keys(groups).sort().map((key) => groups[key]);
 }
 
-function formatJson(commits) {
+function formatCommitsAsJson(commits) {
   return JSON.stringify(commits, null, 2);
 }
 
-function formatMarkdown(commits) {
+function formatCommitsAsMarkdown(commits) {
   let markdown = "# Changelog";
 
-  getCommitsByRelease(commits).forEach((obj) => {
+  groupCommitsByRelease(commits).forEach((obj) => {
     const releaseHeading = (obj.release) ? `${obj.release.name.trim()} - ${new Date(obj.release.published_at).toDateString()}` : "[RELEASE TITLE] - [RELEASE DATE]";
     const releaseBody = (obj.release) ? obj.release.body.trim() : "[RELEASE DESCRIPTION]"
 
@@ -188,12 +186,12 @@ function formatMarkdown(commits) {
       markdown += `${os.EOL}${os.EOL}> ${releaseBody}`;
     }
 
-    getCommitsByLabel(obj.commits).forEach((obj) => {
+    groupCommitsByLabel(obj.commits).forEach((obj) => {
       const labelHeading = headings[obj.label];
 
       markdown += `${os.EOL}${os.EOL}### ${labelHeading}`;
 
-      getCommitsByPackages(obj.commits).forEach((obj) => {
+      groupCommitsByPackages(obj.commits).forEach((obj) => {
         const packagesHeading = obj.packages.map((package) => `\`${package}\``).join(", ");
 
         markdown += `${os.EOL}${os.EOL}* ${packagesHeading}`;
@@ -215,21 +213,32 @@ function formatMarkdown(commits) {
   return markdown;
 }
 
-getCommits().then((commits) => {
+function outputCommits(commits) {
+  let output;
+
   switch (format) {
     case "json":
-      return formatJson(commits);
+      output = formatCommitsAsJson(commits);
+      break;
+
     case "markdown":
-      return formatMarkdown(commits);
+      output = formatCommitsAsMarkdown(commits);
+      break;
+
     default:
       throw new Error(`Unknown format: ${format}`);
   }
-}).then((output) => {
+
   if (outputFile) {
     fs.writeFileSync(outputFile, output);
   } else {
     console.log(output);
   }
-}).catch((error) => {
+}
+
+function handleError(error) {
   console.error(error);
-});
+  process.exit(1);
+}
+
+getCommits().then(outputCommits).catch(handleError);
