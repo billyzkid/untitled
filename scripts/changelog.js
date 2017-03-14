@@ -66,20 +66,20 @@ function getCommits() {
         const promises = [commit];
 
         if (releaseTag) {
-          promises.push(github.get(`/repos/${repo}/releases/tags/${releaseTag}`));
+          promises.push(github.get(`/repos/${repo}/releases/tags/${releaseTag}`).then(null, (error) => console.warn(`Skipping release ${releaseTag}: ${error.message}`)));
         } else {
           promises.push(null);
         }
 
         if (issueNumber) {
-          promises.push(github.get(`/repos/${repo}/issues/${issueNumber}`));
+          promises.push(github.get(`/repos/${repo}/issues/${issueNumber}`).then(null, (error) => console.warn(`Skipping issue #${issueNumber}: ${error.message}`)));
         } else {
           promises.push(null);
         }
 
         return Promise.all(promises);
       }, (error) => {
-        console.warn(`Skipping commit ${sha}: Verify all local commits have been pushed to the remote repository.`);
+        console.warn(`Skipping commit ${sha}: ${error.message}`);
 
         return [];
       }).then(([commit, release, issue]) => {

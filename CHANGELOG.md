@@ -1,104 +1,8 @@
 # Changelog
 
-## Test Release v0.0.6 - Mon Mar 13 2017
+## [RELEASE TITLE] - [RELEASE DATE]
 
-> The body of the release...
-
-### :question: Other
-
-* `untitled`
-
-  * More fixes ([@billyzkid](https://github.com/billyzkid))
-
-  * Stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Fixes ([@billyzkid](https://github.com/billyzkid))
-
-* `untitled`, `untitled-cli`
-
-  * Test publish ([@billyzkid](https://github.com/billyzkid))
-
-## Test Release v0.0.5 - Mon Mar 13 2017
-
-> The body of the release...
-
-### :memo: Documentation
-
-* `untitled`
-
-  * [#4](https://github.com/billyzkid/untitled/pull/4) - Update README.md ([@billyzkid](https://github.com/billyzkid))
-
-### :question: Other
-
-* `untitled`
-
-  * Stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Again ([@billyzkid](https://github.com/billyzkid))
-
-  * Crap ([@billyzkid](https://github.com/billyzkid))
-
-  * Tons of stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Improvements ([@billyzkid](https://github.com/billyzkid))
-
-  * Added more stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Fixed ([@billyzkid](https://github.com/billyzkid))
-
-  * Test local commit ([@billyzkid](https://github.com/billyzkid))
-
-  * Fixed line endings ([@billyzkid](https://github.com/billyzkid))
-
-  * New and improved changelog script ([@billyzkid](https://github.com/billyzkid))
-
-  * Update to authors ([@billyzkid](https://github.com/billyzkid))
-
-  * Better scripts ([@billyzkid](https://github.com/billyzkid))
-
-  * Added authors script ([@billyzkid](https://github.com/billyzkid))
-
-  * Use fetch ([@billyzkid](https://github.com/billyzkid))
-
-  * Updated contributors script ([@billyzkid](https://github.com/billyzkid))
-
-  * Added contributors script ([@billyzkid](https://github.com/billyzkid))
-
-  * Fixes [#5](https://github.com/billyzkid/untitled/issues/5) ([@billyzkid](https://github.com/billyzkid))
-
-  * Remove "Test" text ([@billyzkid](https://github.com/billyzkid))
-
-  * Update README.md ([@billyzkid](https://github.com/billyzkid))
-
-* `untitled`, `untitled-cli`
-
-  * Stuff ([@billyzkid](https://github.com/billyzkid))
-
-  * Stuff ([@billyzkid](https://github.com/billyzkid))
-
-* `untitled-cli`
-
-  * $(echo 'Publish') ([@billyzkid](https://github.com/billyzkid))
-
-  * $(echo Publish ([@billyzkid](https://github.com/billyzkid))
-
-  * $(echo Publish ([@billyzkid](https://github.com/billyzkid))
-
-  * $(echo Publish ([@billyzkid](https://github.com/billyzkid))
-
-## Test Release - Tue Feb 21 2017
+> [RELEASE DESCRIPTION]
 
 ### :nail_care: Enhancement
 
@@ -111,6 +15,8 @@
 ### :memo: Documentation
 
 * `untitled`
+
+  * [#4](https://github.com/billyzkid/untitled/pull/4) - Update README.md ([@billyzkid](https://github.com/billyzkid))
 
   * [#3](https://github.com/billyzkid/untitled/pull/3) - Update README ([@billyzkid](https://github.com/billyzkid))
 
@@ -232,6 +138,62 @@
 
 * `untitled`
 
+  * More fixes ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Fixes ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Again ([@billyzkid](https://github.com/billyzkid))
+
+  * Crap ([@billyzkid](https://github.com/billyzkid))
+
+  * Tons of stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Improvements ([@billyzkid](https://github.com/billyzkid))
+
+  * Added more stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Fixed ([@billyzkid](https://github.com/billyzkid))
+
+  * Test local commit ([@billyzkid](https://github.com/billyzkid))
+
+  * Fixed line endings ([@billyzkid](https://github.com/billyzkid))
+
+  * New and improved changelog script ([@billyzkid](https://github.com/billyzkid))
+
+  * Update to authors ([@billyzkid](https://github.com/billyzkid))
+
+  * Better scripts ([@billyzkid](https://github.com/billyzkid))
+
+  * Added authors script ([@billyzkid](https://github.com/billyzkid))
+
+  * Use fetch ([@billyzkid](https://github.com/billyzkid))
+
+  * Updated contributors script ([@billyzkid](https://github.com/billyzkid))
+
+  * Added contributors script ([@billyzkid](https://github.com/billyzkid))
+
+  * Fixes [#5](https://github.com/billyzkid/untitled/issues/5) ([@billyzkid](https://github.com/billyzkid))
+
+  * Remove "Test" text ([@billyzkid](https://github.com/billyzkid))
+
+  * Update README.md ([@billyzkid](https://github.com/billyzkid))
+
   * Updated changelog script ([@billyzkid](https://github.com/billyzkid))
 
   * Updating changelog ([@billyzkid](https://github.com/billyzkid))
@@ -284,6 +246,18 @@
 
   * Initial commit ([@billyzkid](https://github.com/billyzkid))
 
+* `untitled`, `untitled-cli`
+
+  * Fixing versions ([@billyzkid](https://github.com/billyzkid))
+
+  * Test Release v0.0.6 ([@billyzkid](https://github.com/billyzkid))
+
+  * Test publish ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
+  * Stuff ([@billyzkid](https://github.com/billyzkid))
+
 * `untitled`, `untitled-scripts`
 
   * Cleanup and comments ([@billyzkid](https://github.com/billyzkid))
@@ -303,6 +277,16 @@
 * `untitled-author`, `untitled-author-scripts`
 
   * Added scripts ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled-cli`
+
+  * $(echo 'Publish') ([@billyzkid](https://github.com/billyzkid))
+
+  * $(echo Publish ([@billyzkid](https://github.com/billyzkid))
+
+  * $(echo Publish ([@billyzkid](https://github.com/billyzkid))
+
+  * $(echo Publish ([@billyzkid](https://github.com/billyzkid))
 
 * `untitled-cli`, `untitled-scripts`
 
