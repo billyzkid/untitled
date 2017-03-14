@@ -1,16 +1,22 @@
 # Changelog
 
-## [RELEASE TITLE] - [RELEASE DATE]
+## Test Release v0.0.6 - Mon Mar 13 2017
 
-> [RELEASE DESCRIPTION]
+> The body of the release...
 
 ### :question: Other
 
 * `untitled`
 
+  * More fixes ([@billyzkid](https://github.com/billyzkid))
+
   * Stuff ([@billyzkid](https://github.com/billyzkid))
 
   * Fixes ([@billyzkid](https://github.com/billyzkid))
+
+* `untitled`, `untitled-cli`
+
+  * Test publish ([@billyzkid](https://github.com/billyzkid))
 
 ## Test Release v0.0.5 - Mon Mar 13 2017
 

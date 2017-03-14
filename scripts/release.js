@@ -1,3 +1,4 @@
+const childProcess = require("child_process");
 const github = require("./github");
 const minimist = require("minimist");
 const packageJson = require("../package.json");
@@ -7,39 +8,54 @@ const args = process.argv.slice(2);
 const options = minimist(args);
 
 const repo = options.repo || packageJson.repository;
-const tag = options["tag"];
+const version = options["version"] || packageJson.version;
 
-// if (!tag) {
-//   throw new Error("Tag required.");
-// }
+if (!version) {
+  throw new Error("Version required.");
+}
 
 function checkStatus() {
   return utilities.exec("git status --porcelain", { encoding: "utf8" }).then((status) => {
     if (status) {
-      //throw new Error("Your git status is not clean.");
+      throw new Error("Your git status is not clean.");
     }
   });
 }
 
 function updateAuthors() {
-  return utilities.exec("npm run authors", { encoding: "utf8" });
+  return childProcess.execSync("npm run authors", { encoding: "utf8", stdio: "inherit" });
 }
 
 function updateChangelog() {
-  return utilities.exec("npm run changelog", { encoding: "utf8" });
+  return childProcess.execSync("npm run changelog", { encoding: "utf8", stdio: "inherit" });
 }
 
-function createRelease() {
+function publishPackages() {
+  return childProcess.execSync("npm run publish", { encoding: "utf8", stdio: "inherit" });
 }
 
-// 1. Check git status (git status --porcelain)
-// 2. Update AUTHORS (npm run authors)
-// 3. Update CHANGELOG (npm run changelog)
-// 4. Publish (npm run publish)
-// 5. Create tagged release with title/description from changelog
+function createRelease(content) {
+  // See https://developer.github.com/v3/repos/releases/#create-a-release
+  const content = {
+    "tag_name": "v0.0.6",
+    "target_commitish": "master",
+    "name": "Test Release v0.0.6",
+    "body": "The body of the release...",
+    "draft": false,
+    "prerelease": false
+  };
 
-checkStatus()
-  .then(() => updateAuthors())
-  .then(() => updateChangelog())
-  .then(() => publish())
-  .catch((error) => console.error(error));
+  return github.post(`/repos/${repo}/releases`, content);
+}
+
+function handleError(error) {
+  console.error(error);
+  process.exit(1);
+}
+
+// checkStatus()
+//   .then(updateAuthors)
+//   .then(updateChangelog)
+//   .then(publishPackages)
+//   .then(createRelease)
+//   .catch(handleError);

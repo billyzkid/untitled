@@ -7,21 +7,35 @@ dotenv.config();
 const apiEndpoint = "https://api.github.com";
 const apiToken = process.env.GITHUB_API_TOKEN;
 
-function request(method, url, pagedData) {
+function request(method, url, content, pagedData) {
+  let body;
+
+  if (content) {
+    body = JSON.stringify(content);
+  }
+
   if (!url.startsWith(apiEndpoint)) {
     url = apiEndpoint + url;
   }
 
   const headers = {
-    "Accept": "application/vnd.github.v3+json",
-    "User-Agent": `${packageJson.name}/${packageJson.version}`
+    "User-Agent": `${packageJson.name}/${packageJson.version}`,
+    "Accept": "application/vnd.github.v3+json"
   };
 
   if (apiToken) {
     headers["Authorization"] = `token ${apiToken}`;
   }
 
-  return fetch(url, { method, headers }).then((response) => {
+  if (method === "POST" || method === "PATCH" || method === "PUT" || method === "DELETE") {
+    headers["Content-Type"] = "application/json";
+  }
+
+  if (method === "PUT" && !body) {
+    headers["Content-Length"] = 0;
+  }
+
+  return fetch(url, { method, body, headers }).then((response) => {
     if (!response.ok) {
       throw new Error(`Request failed with response status ${response.status} (${response.statusText}): ${url}`);
     }
@@ -48,7 +62,7 @@ function request(method, url, pagedData) {
         }, null);
 
         if (nextUrl) {
-          return request(method, nextUrl, pagedData);
+          return request(method, nextUrl, content, pagedData);
         } else {
           return pagedData;
         }
@@ -61,10 +75,15 @@ function request(method, url, pagedData) {
 
 function get(url, paged) {
   if (paged) {
-    return request("GET", url, []);
+    return request("GET", url, null, []);
   } else {
-    return request("GET", url);
+    return request("GET", url, null);
   }
 }
 
+function post(url, content) {
+  return request("POST", url, content);
+}
+
 exports.get = get;
+exports.post = post;
