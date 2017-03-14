@@ -8,5 +8,4 @@ rimraf.sync("../packages/*/node_modules");
 rimraf.sync("../packages/*/*.log");
 rimraf.sync("../coverage");
 rimraf.sync("../node_modules");
-rimraf.sync("../.changelog");
 rimraf.sync("../*.log");
