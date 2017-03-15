@@ -5,9 +5,9 @@
 * [babel-preset-untitled](packages/babel-preset-untitled/README.md)
 * [eslint-config-untitled](packages/eslint-config-untitled/README.md)
 * [eslint-plugin-untitled](packages/eslint-plugin-untitled/README.md)
-* [example-story](packages/example-story/README.md)
-* [untitled](packages/untitled/README.md)
 * [untitled-cli](packages/untitled-cli/README.md)
+* [untitled-core](packages/untitled-core/README.md)
+* [untitled-example-story](packages/untitled-example-story/README.md)
 * [untitled-scripts](packages/untitled-scripts/README.md)
 
 ## Requirements
