@@ -7,6 +7,9 @@ const semver = require("semver");
 
 const eol = os.EOL;
 const repo = packageJson.repository;
+const packageName = packageJson.name;
+const packagesPath = path.resolve(__dirname, "../packages");
+
 const cleanStatusRegExp = /^On branch master\nYour branch is up-to-date with 'origin\/master'.\nnothing to commit, working directory clean\n$/;
 const pullRequestMessageRegExp = /^Merge pull request #(\d+)[\s\S]+$/;
 const issueNumberRegExp = /(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved) #(\d+)/gi;
@@ -69,7 +72,6 @@ function groupCommitsByLabel(commits) {
 }
 
 function groupCommitsByPackages(commits) {
-  const packagesPath = path.resolve(packagesDir);
   const groups = commits.reduce((obj, commit) => {
     const packageNames = (commit.files.length > 0) ? commit.files.map((file) => {
       const filePath = path.resolve(file.filename);
@@ -122,10 +124,10 @@ function formatCommits(commits) {
     });
   });
 
-  return markdown;
+  return markdown.trim();
 }
 
-function gitStatus() {
+function checkStatus() {
   const status = childProcess.execSync("git status", { encoding: "utf8" });
 
   if (!cleanStatusRegExp.test(status)) {
@@ -150,7 +152,7 @@ function createRelease() {
   const version = require("../lerna.json").version;
   const tag = `v${version}`;
   const name = `Release ${tag}`;
-  const prerelease = !!semver.parse(version).prerelease;
+  const prerelease = !!semver.parse(version).prerelease.length;
 
   getCommits().then(formatCommits).then((body) => {
     // https://developer.github.com/v3/repos/releases/#create-a-release
@@ -161,7 +163,7 @@ function createRelease() {
       prerelease
     };
 
-    //return github.post(`/repos/${repo}/releases`, content);
+    return github.post(`/repos/${repo}/releases`, content);
   });
 }
 
@@ -171,7 +173,7 @@ function handleError(error) {
 }
 
 try {
-  gitStatus();
+  //checkStatus();
   //publishPackages();
   //updateAuthors();
   //updateChangelog();
