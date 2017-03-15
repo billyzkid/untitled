@@ -7,7 +7,7 @@ const semver = require("semver");
 
 const eol = os.EOL;
 const repo = packageJson.repository;
-const cleanStatusRegExp = /^On branch master\nYour branch is up-to-date with 'origin\/master'.\nnothing to commit, working directory clean$/;
+const cleanStatusRegExp = /^On branch master\nYour branch is up-to-date with 'origin\/master'.\nnothing to commit, working directory clean\n$/;
 const pullRequestMessageRegExp = /^Merge pull request #(\d+)[\s\S]+$/;
 const issueNumberRegExp = /(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved) #(\d+)/gi;
 const issueNumberReplacement = `$1 [#$2](https://github.com/${repo}/issues/$2)`;
