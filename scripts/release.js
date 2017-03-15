@@ -31,6 +31,7 @@ function getCommits() {
       const pullRequestMessage = commit.commit.message.match(pullRequestMessageRegExp);
       const issueNumber = (pullRequestMessage) ? pullRequestMessage[1] : null;
 
+      // silly comment
       if (issueNumber) {
         return github.get(`/repos/${repo}/issues/${issueNumber}`).then((issue) => { commit.issue = issue; return commit; });
       } else {
