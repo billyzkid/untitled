@@ -15,26 +15,26 @@ if (!version) {
 }
 
 function checkStatus() {
-  return utilities.exec("git status --porcelain", { encoding: "utf8" }).then((status) => {
-    if (status) {
-      throw new Error("Your git status is not clean.");
-    }
-  });
+  const status = childProcess.execSync("git status --porcelain", { encoding: "utf8" });
+
+  if (status) {
+    throw new Error("Your git status is not clean.");
+  }
 }
 
 function updateAuthors() {
-  return childProcess.execSync("npm run authors", { encoding: "utf8", stdio: "inherit" });
+  childProcess.execSync("npm run authors", { stdio: "inherit" });
 }
 
 function updateChangelog() {
-  return childProcess.execSync("npm run changelog", { encoding: "utf8", stdio: "inherit" });
+  childProcess.execSync("npm run changelog", { stdio: "inherit" });
 }
 
 function publishPackages() {
-  return childProcess.execSync("npm run publish", { encoding: "utf8", stdio: "inherit" });
+  childProcess.execSync("npm run publish", { stdio: "inherit" });
 }
 
-function createRelease(content) {
+function createRelease() {
   // See https://developer.github.com/v3/repos/releases/#create-a-release
   const content = {
     "tag_name": "v0.0.6",
@@ -50,12 +50,14 @@ function createRelease(content) {
 
 function handleError(error) {
   console.error(error);
-  process.exit(1);
+  //process.exit(1);
 }
 
-// checkStatus()
-//   .then(updateAuthors)
-//   .then(updateChangelog)
-//   .then(publishPackages)
-//   .then(createRelease)
-//   .catch(handleError);
+try {
+  checkStatus();
+  updateAuthors();
+  updateChangelog();
+  publishPackages();
+} catch (error) {
+  handleError(error);
+}

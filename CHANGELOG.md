@@ -74,6 +74,14 @@
 
   * Cleanup ([@billyzkid](https://github.com/billyzkid))
 
+* `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled`, `untitled-cli`, `untitled-core`, `untitled-example-story`, `untitled-scripts`
+
+  * EOLs ([@billyzkid](https://github.com/billyzkid))
+
+* `babel-preset-untitled`, `eslint-config-untitled`, `eslint-plugin-untitled`, `untitled-cli`, `untitled-core`, `untitled-example-story`, `untitled-scripts`
+
+  * Unprivate packages ([@billyzkid](https://github.com/billyzkid))
+
 * `babel-preset-untitled`, `eslint-config-untitled`, `untitled`, `untitled-author`
 
   * Updates ([@billyzkid](https://github.com/billyzkid))
@@ -141,6 +149,14 @@
   * Added unpublish script ([@billyzkid](https://github.com/billyzkid))
 
 * `untitled`
+
+  * Fixed README ([@billyzkid](https://github.com/billyzkid))
+
+  * Blah ([@billyzkid](https://github.com/billyzkid))
+
+  * Skip npm ([@billyzkid](https://github.com/billyzkid))
+
+  * Removed extra line ([@billyzkid](https://github.com/billyzkid))
 
   * Updated changelog ([@billyzkid](https://github.com/billyzkid))
 
