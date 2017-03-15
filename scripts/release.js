@@ -29,7 +29,7 @@ const headings = {
 };
 
 function getCommits() {
-  const result = childProcess.execSync("git rev-list --first-parent HEAD", { encoding: "utf8" });
+  const result = childProcess.execSync("git rev-list --first-parent HEAD..", { encoding: "utf8" });
   const promises = result.split("\n").filter((line) => line).map((sha) => {
     return github.get(`/repos/${repo}/commits/${sha}`).then((commit) => {
       const pullRequestMessage = commit.commit.message.match(pullRequestMessageRegExp);
