@@ -154,6 +154,8 @@ function createRelease() {
   const name = `Release ${tag}`;
   const prerelease = !!semver.parse(version).prerelease.length;
 
+  // Silly comment to remove
+
   getCommits().then(formatCommits).then((body) => {
     // https://developer.github.com/v3/repos/releases/#create-a-release
     const content = {
