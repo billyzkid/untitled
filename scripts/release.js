@@ -28,9 +28,23 @@ const headings = {
   [unlabeledLabel]: ":question: Other"
 };
 
-function getCommits() {
-  const result = childProcess.execSync("git rev-list --first-parent HEAD..", { encoding: "utf8" });
-  const promises = result.split("\n").filter((line) => line).map((sha) => {
+const labels = Object.keys(headings);
+
+function getCommits(tagFrom, tagTo) {
+  let tagRange;
+
+  if (tagFrom && tagTo) {
+    tagRange = `${tagFrom}..${tagTo}`;
+  } else if (tagFrom) {
+    tagRange = `${tagFrom}..`;
+  } else if (tagTo) {
+    tagRange = `${tagTo}`;
+  } else {
+    tagRange = "";
+  }
+
+  const shas = childProcess.execSync(`git rev-list --first-parent ${tagRange}`, { encoding: "utf8" }).split("\n").filter((line) => line);
+  const promises = shas.map((sha) => {
     return github.get(`/repos/${repo}/commits/${sha}`).then((commit) => {
       const pullRequestMessage = commit.commit.message.match(pullRequestMessageRegExp);
       const issueNumber = (pullRequestMessage) ? pullRequestMessage[1] : null;
@@ -47,7 +61,6 @@ function getCommits() {
 }
 
 function groupCommitsByLabel(commits) {
-  const labels = Object.keys(headings);
   const groups = commits.reduce((obj, commit) => {
     labels.forEach((label) => {
       const key = label;
@@ -98,7 +111,7 @@ function groupCommitsByPackages(commits) {
   return Object.keys(groups).sort().map((key) => groups[key]);
 }
 
-function formatCommits(commits) {
+function formatCommitsAsMarkdown(commits) {
   let markdown = "";
 
   groupCommitsByLabel(commits).forEach((obj) => {
@@ -148,24 +161,23 @@ function updateChangelog() {
   childProcess.execSync("npm run changelog", { stdio: "inherit" });
 }
 
+function getLatestRelease() {
+  return github.get(`/repos/${repo}/releases/latest`);
+}
+
 function createRelease() {
-  const version = require("../lerna.json").version;
-  const tag = `v${version}`;
-  const name = `Release ${tag}`;
-  const prerelease = !!semver.parse(version).prerelease.length;
+  return getLatestRelease().then((latestRelease) => {
+    const latestReleaseTag = (latestRelease) ? latestRelease.tag_name : null;
+    return getCommits(latestReleaseTag);
+  }).then((commits) => {
+    const version = require("../lerna.json").version;
+    const tag_name = `v${version}`;
+    const name = `Release ${tag_name}`;
+    const body = formatCommitsAsMarkdown(commits);
+    const prerelease = !!semver.parse(version).prerelease.length;
 
-  // Silly comment to remove
-
-  getCommits().then(formatCommits).then((body) => {
     // https://developer.github.com/v3/repos/releases/#create-a-release
-    const content = {
-      tag_name: tag,
-      name,
-      body,
-      prerelease
-    };
-
-    return github.post(`/repos/${repo}/releases`, content);
+    return github.post(`/repos/${repo}/releases`, { tag_name, name, body, prerelease });
   });
 }
 
