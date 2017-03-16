@@ -43,7 +43,7 @@ function getCommits(tagFrom, tagTo) {
     tagRange = "";
   }
 
-  const shas = childProcess.execSync(`git rev-list --first-parent ${tagRange}`, { encoding: "utf8" }).split("\n").filter((line) => line);
+  const shas = childProcess.execSync(`git log --pretty="%H" --first-parent ${tagRange}`, { encoding: "utf8" }).split("\n").filter((line) => line);
   const promises = shas.map((sha) => {
     return github.get(`/repos/${repo}/commits/${sha}`).then((commit) => {
       const pullRequestMessage = commit.commit.message.match(pullRequestMessageRegExp);
@@ -56,6 +56,13 @@ function getCommits(tagFrom, tagTo) {
       }
     });
   });
+
+  return Promise.all(promises);
+}
+
+function getContributors(commits) {
+  const urls = commits.filter((commit) => commit.author).map((commit) => commit.author.url);
+  const promises = [...new Set(urls)].map((url) => github.get(url));
 
   return Promise.all(promises);
 }
@@ -111,35 +118,6 @@ function groupCommitsByPackages(commits) {
   return Object.keys(groups).sort().map((key) => groups[key]);
 }
 
-function formatCommitsAsMarkdown(commits) {
-  let markdown = "";
-
-  groupCommitsByLabel(commits).forEach((obj) => {
-    const labelHeading = headings[obj.label];
-
-    markdown += `${eol}### ${labelHeading}${eol}`;
-
-    groupCommitsByPackages(obj.commits).forEach((obj) => {
-      const packagesHeading = obj.packages.map((package) => `\`${package}\``).join(", ");
-
-      markdown += `${eol}* ${packagesHeading}${eol}`;
-
-      obj.commits.forEach((commit) => {
-        const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))` : `${commit.commit.message.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))`
-        const commitBody = (commit.issue) ? commit.issue.body.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim() : null;
-
-        markdown += `${eol}  * ${commitHeading}${eol}`;
-
-        if (commitBody) {
-          markdown += `${eol}    ${commitBody}${eol}`;
-        }
-      });
-    });
-  });
-
-  return markdown.trim();
-}
-
 function checkStatus() {
   const status = childProcess.execSync("git status", { encoding: "utf8" });
 
@@ -162,22 +140,73 @@ function updateChangelog() {
 }
 
 function getLatestRelease() {
-  return github.get(`/repos/${repo}/releases/latest`);
+  return github.get(`/repos/${repo}/releases/latest`).then(null, (error) => null);
 }
 
 function createRelease() {
-  return getLatestRelease().then((latestRelease) => {
-    const latestReleaseTag = (latestRelease) ? latestRelease.tag_name : null;
-    return getCommits(latestReleaseTag);
-  }).then((commits) => {
-    const version = require("../lerna.json").version;
-    const tag_name = `v${version}`;
-    const name = `Release ${tag_name}`;
-    const body = formatCommitsAsMarkdown(commits);
-    const prerelease = !!semver.parse(version).prerelease.length;
+  const version = require("../lerna.json").version;
+  const tag = `v${version}`;
+  const name = `Release ${tag}`;
+  const prerelease = !!semver.parse(version).prerelease.length;
 
-    // https://developer.github.com/v3/repos/releases/#create-a-release
-    return github.post(`/repos/${repo}/releases`, { tag_name, name, body, prerelease });
+  return getLatestRelease().then((latestRelease) => {
+    if (latestRelease) {
+      return getCommits(latestRelease.tag_name);
+    } else {
+      return getCommits();
+    }
+  }).then((commits) => {
+    return getContributors(commits).then((contributors) => {
+      let markdown = "";
+
+      groupCommitsByLabel(commits).forEach((obj) => {
+        const labelHeading = headings[obj.label];
+
+        markdown += `#### ${labelHeading} (${obj.commits.length})${eol}${eol}`;
+
+        groupCommitsByPackages(obj.commits).forEach((obj) => {
+          const packagesHeading = obj.packages.map((package) => `\`${package}\``).join(", ");
+
+          markdown += `* ${packagesHeading}${eol}${eol}`;
+
+          obj.commits.forEach((commit, index) => {
+            const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))` : `${commit.commit.message.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))`
+            const commitBody = (commit.issue) ? commit.issue.body.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim() : null;
+
+            if (commitHeading && commitBody) {
+              markdown += `  * ${commitHeading}${eol}    <p>${commitBody}</p>${eol}${eol}`;
+            } else if (index === obj.commits.length - 1) {
+              markdown += `  * ${commitHeading}${eol}${eol}`;
+            } else {
+              markdown += `  * ${commitHeading}${eol}`;
+            }
+          });
+        });
+      });
+
+      if (contributors.length > 0) {
+        markdown += `#### Contributors (${contributors.length})${eol}${eol}`;
+
+        contributors.sort((a, b) => {
+          const stringA = (a.name) ? `${a.name} (@${a.login})` : `@${a.login}`;
+          const stringB = (b.name) ? `${b.name} (@${b.login})` : `@${b.login}`;
+
+          return stringA.localeCompare(stringB);
+        }).forEach((contributor) => {
+          const { name, login, html_url } = contributor;
+
+          if (name) {
+            markdown += `* ${name} ([@${login}](${html_url}))${eol}`;
+          } else {
+            markdown += `* [@${login}](${html_url})${eol}`;
+          }
+        });
+      }
+
+      return markdown.trim();
+    });
+  }).then((body) => {
+    return github.post(`/repos/${repo}/releases`, { tag_name: tag, name, body, prerelease });
   });
 }
 
