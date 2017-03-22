@@ -109,20 +109,24 @@ function getCommits() {
 
 function getAuthors(commits) {
   const authors = commits.reduce((obj, commit) => {
-    const { id, login, html_url } = commit.author;
-    const { name, email } = commit.commit.author;
+    const key = commit.author.id;
 
-    let text;
+    if (!obj[key]) {
+      const { login, html_url } = commit.author;
+      const { name, email } = commit.commit.author;
 
-    if (name && email) {
-      text = `${name} <${email}> (@${login})`;
-    } else if (name) {
-      text = `${name} (@${login})`;
-    } else {
-      text = `@${login}`;
+      let text;
+
+      if (name && email) {
+        text = `${name} <${email}> (@${login})`;
+      } else if (name) {
+        text = `${name} (@${login})`;
+      } else {
+        text = `@${login}`;
+      }
+
+      obj[key] = { login, html_url, name, email, text };
     }
-
-    obj[id] = { login, html_url, name, email, text };
 
     return obj;
   }, {});
