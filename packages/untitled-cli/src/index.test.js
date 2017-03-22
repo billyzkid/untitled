@@ -1,4 +1,4 @@
-import { execute } from "./index"
+import { execute } from "./index";
 
 describe("execute", () => {
   test("should be an exported function", () => {

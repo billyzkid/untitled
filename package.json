@@ -17,8 +17,13 @@
     "npm": ">=4"
   },
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-class-properties": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.22.0",
+    "babel-preset-latest": "^6.22.0",
     "coveralls": "^2.11.16",
     "dotenv": "^4.0.0",
+    "eslint": "^3.15.0",
     "glob": "^7.1.1",
     "inquirer": "^3.0.6",
     "istanbul": "^0.4.5",
@@ -31,7 +36,7 @@
   "scripts": {
     "authors": "node ./scripts/authors",
     "build": "lerna run build",
-    "changelog": "node ./scripts/changelog",
+    "changelog": "node ./scripts/changelog --group-by-label --group-by-package",
     "clean": "node ./scripts/clean",
     "coverage": "lerna run coverage",
     "lint": "lerna run lint",

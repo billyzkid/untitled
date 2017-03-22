@@ -1,4 +1,4 @@
-import { run } from "./index"
+import { run } from "./index";
 import spawn from "cross-spawn";
 
 jest.mock("cross-spawn");

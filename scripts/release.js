@@ -165,12 +165,12 @@ function createRelease() {
         markdown += `#### ${labelHeading} (${obj.commits.length})${eol}${eol}`;
 
         groupCommitsByPackages(obj.commits).forEach((obj) => {
-          const packagesHeading = obj.packages.map((package) => `\`${package}\``).join(", ");
+          const packagesHeading = obj.packages.map((name) => `\`${name}\``).join(", ");
 
           markdown += `* ${packagesHeading}${eol}${eol}`;
 
           obj.commits.forEach((commit, index) => {
-            const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))` : `${commit.commit.message.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))`
+            const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))` : `${commit.commit.message.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))`;
             const commitBody = (commit.issue) ? commit.issue.body.replace(issueNumberRegExp, issueNumberReplacement).replace(newlineRegExp, newlineReplacement).trim() : null;
 
             if (commitHeading && commitBody) {

@@ -17,6 +17,10 @@ module.exports = {
     jest: true
   },
   rules: {
-    "no-console": "warn"
+    "no-console": "warn",
+    "semi": [
+      "error",
+      "always"
+    ]
   }
 };

@@ -1,74 +1,70 @@
 const fs = require("fs");
-const github = require("./github");
 const minimist = require("minimist");
-const os = require("os");
-const packageJson = require("../package.json");
+const utilities = require("./utilities");
+const { EOL: eol } = require("os");
 
-const args = process.argv.slice(2);
-const options = minimist(args);
+const options = minimist(process.argv.slice(2), {
+  string: ["out-file", "exclude-pattern"],
+  default: {
+    "out-file": "./AUTHORS",
+    "exclude-pattern": null
+  },
+  alias: {
+    o: "out-file",
+    x: "exclude-pattern"
+  }
+});
 
-const repo = options.repo || packageJson.repository;
-const format = options.format || "text";
-const outputFile = options["out-file"] || "./AUTHORS";
+const outFile = options["out-file"];
+const excludePattern = options["exclude-pattern"];
+const excludeRegExp = (excludePattern) ? new RegExp(excludePattern) : null;
 
-const eol = os.EOL;
+function getAuthors() {
+  utilities.checkBranchUpToDate();
 
-function getContributors() {
-  return github.get(`/repos/${repo}/contributors?per_page=100`, true).then((contributors) => {
-    const promises = contributors.map((contributor) => github.get(contributor.url).then((user) => contributor.user = user));
-    return Promise.all(promises).then(() => contributors);
+  return utilities.getCommits().then((commits) => {
+    const authors = commits.reduce((obj, commit) => {
+      const { id, login, html_url } = commit.author;
+      const { name, email } = commit.commit.author;
+
+      let text;
+
+      if (name && email) {
+        text = `${name} <${email}> (${html_url})`;
+      } else if (name) {
+        text = `${name} (${html_url})`;
+      } else {
+        text = `@${login} (${html_url})`;
+      }
+
+      obj[id] = { login, html_url, name, email, text };
+
+      return obj;
+    }, {});
+
+    return utilities.values(authors).sort((a, b) => a.text.localeCompare(b.text)).filter((author) => {
+      if (excludeRegExp) {
+        return !excludeRegExp.test(author.text);
+      } else {
+        return true;
+      }
+    });
   });
 }
 
-function formatContributorsAsJson(contributors) {
-  return JSON.stringify(contributors, null, 2);
-}
+function writeAuthors(authors) {
+  // let output = JSON.stringify(authors, null, 2);
+  let output = authors.map((author) => author.text).join(eol);
 
-function formatContributorsAsText(contributors) {
-  return contributors.map((contributor) => {
-    const user = contributor.user;
-    const name = (user && user.name) ? user.name : contributor.login;
-    const email = (user && user.email) ? user.email : null;
-    const url = (user && user.html_url) ? user.html_url : contributor.html_url;
-
-    if (email && url) {
-      return `${name} <${email}> (${url})${eol}`;
-    } else if (email) {
-      return `${name} <${email}>${eol}`;
-    } else if (url) {
-      return `${name} (${url})${eol}`;
-    } else {
-      return `${name}${eol}`;
-    }
-  }).sort().join("");
-}
-
-function outputContributors(contributors) {
-  let output;
-
-  switch (format) {
-    case "json":
-      output = formatContributorsAsJson(contributors);
-      break;
-
-    case "text":
-      output = formatContributorsAsText(contributors);
-      break;
-
-    default:
-      throw new Error(`Unknown format: ${format}`);
+  if (output) {
+    output += eol;
   }
 
-  if (outputFile) {
-    fs.writeFileSync(outputFile, output);
+  if (outFile) {
+    fs.writeFileSync(outFile, output);
   } else {
-    console.log(output);
+    process.stdout.write(output);
   }
 }
 
-function handleError(error) {
-  console.error(error);
-  process.exit(1);
-}
-
-getContributors().then(outputContributors).catch(handleError);
+getAuthors().then(writeAuthors).catch(utilities.handleError);

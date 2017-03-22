@@ -1,100 +1,131 @@
+const childProcess = require("child_process");
 const fs = require("fs");
-const github = require("./github");
+const glob = require("glob");
 const minimist = require("minimist");
-const os = require("os");
-const packageJson = require("../package.json");
 const path = require("path");
 const utilities = require("./utilities");
+const { EOL: eol } = require("os");
 
-const args = process.argv.slice(2);
-const options = minimist(args);
+const options = minimist(process.argv.slice(2), {
+  string: ["out-file", "exclude-pattern"],
+  boolean: ["group-by-release", "group-by-label", "group-by-package"],
+  default: {
+    "out-file": "./CHANGELOG.md",
+    "exclude-pattern": null,
+    "group-by-release": true,
+    "group-by-label": false,
+    "group-by-package": false
+  },
+  alias: {
+    o: "out-file",
+    x: "exclude-pattern",
+    r: "group-by-release",
+    l: "group-by-label",
+    p: "group-by-package"
+  }
+});
 
-const repo = options.repo || packageJson.repository;
-const format = options.format || "markdown";
-const outputFile = options["out-file"] || "./CHANGELOG.md";
-const packagesDir = options["pkg-dir"] || "./packages";
-const packageName = options["pkg-name"] || packageJson.name;
-const tagFrom = options["tag-from"];
-const tagTo = options["tag-to"];
+const outFile = options["out-file"];
+const excludePattern = options["exclude-pattern"];
+const groupByRelease = options["group-by-release"];
+const groupByLabel = options["group-by-label"];
+const groupByPackage = options["group-by-package"];
+const extraArgs = options["_"];
 
-const eol = os.EOL;
-const newlineSearch = /\n/g;
-const newlineReplacement = "\n    ";
-const commitIssueSearch = /(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved) #(\d+)/gi;
-const commitIssueReplacement = `$1 [#$2](https://github.com/${repo}/issues/$2)`;
-const unreleasedTag = "___unreleased___";
-const unlabeledLabel = "___unlabeled___";
+const tagRegExp = /tag: ([^,]+)/g;
+const issueRegExp = /^Merge pull request #(\d+)[\s\S]+$/;
+const excludeRegExp = (excludePattern) ? new RegExp(excludePattern) : null;
+const commitHeadingPrefix = (groupByPackage) ? "  - " : "* ";
+const commitBodyPrefix = (groupByPackage) ? "    " : "  ";
+const unreleasedTag = "__unreleased__";
+const unlabeledLabel = "__unlabeled__";
 
 const headings = {
-  "change: new feature": ":rocket: New Feature",
-  "change: breaking change": ":boom: Breaking Change",
-  "change: bug fix": ":bug: Bug Fix",
-  "change: enhancement": ":nail_care: Enhancement",
+  "change: new feature": ":rocket: New Features",
+  "change: breaking change": ":boom: Breaking Changes",
+  "change: bug fix": ":bug: Bug Fixes",
+  "change: polish": ":nail_care: Polish",
   "change: documentation": ":memo: Documentation",
-  "change: internal": ":house: Internal",
+  "change: housekeeping": ":house: Housekeeping",
   [unlabeledLabel]: ":question: Other"
 };
 
+const labels = Object.keys(headings);
+const packagePaths = glob.sync("**/package.json", { ignore: "**/node_modules/**" }).map((result) => path.resolve(path.dirname(result)));
+const rootPackageName = (packagePaths.length > 0) ? path.basename(packagePaths[0]) : "";
+
 function getCommits() {
-  let tagRange;
+  utilities.checkBranchUpToDate();
 
-  if (tagFrom && tagTo) {
-    tagRange = `${tagFrom}..${tagTo}`;
-  } else if (tagFrom) {
-    tagRange = `${tagFrom}..`;
-  } else if (tagTo) {
-    tagRange = `${tagTo}`;
-  } else {
-    tagRange = "";
-  }
+  return utilities.getReleases().then((releases) => {
+    const revisionRange = extraArgs[0] || "";
+    const logCommand = `git log --pretty="%H;%D" --first-parent ${revisionRange} -- .`;
+    const logLines = childProcess.execSync(logCommand, { encoding: "utf8" }).split("\n").filter((line) => line);
 
-  return utilities.exec(`git log --pretty="%H;%s;%D" --first-parent ${tagRange}`, { encoding: "utf8" }).then((log) => {
-    let tags;
+    let currentTags;
 
-    const promises = log.split("\n").filter((line) => line).map((line) => {
-      const [sha, subject, refs] = line.split(";");
-      const refTags = refs.split(", ").filter((ref) => ref.startsWith("tag: v")).map((ref) => ref.slice(5));
+    return Promise.all(logLines.map((line) => {
+      const [sha, refs] = line.split(";");
+      const tags = [];
 
-      if (refTags.length > 0) {
-        tags = refTags;
+      let tagMatch = tagRegExp.exec(refs);
+
+      if (tagMatch) {
+        do {
+          tags.push(tagMatch[1]);
+          tagMatch = tagRegExp.exec(refs);
+        } while (tagMatch);
+        currentTags = tags;
+      } else if (currentTags) {
+        tags.push(...currentTags);
       }
 
-      const releaseTag = (tags) ? tags[0] : null;
-      const issueNumberMatch = subject.match(/^Merge pull request #(\d+)/);
-      const issueNumber = (issueNumberMatch) ? issueNumberMatch[1] : null;
+      return utilities.getCommit(sha).then((commit) => {
+        const release = releases.find((release) => tags.some((tag) => tag === release.tag_name));
+        const issueMatch = commit.commit.message.match(issueRegExp);
+        const issueNumber = (issueMatch) ? parseInt(issueMatch[1]) : NaN;
 
-      return github.get(`/repos/${repo}/commits/${sha}`).then((commit) => {
-        const promises = [commit];
-
-        if (releaseTag) {
-          promises.push(github.get(`/repos/${repo}/releases/tags/${releaseTag}`).then(null, (error) => console.warn(`Skipping release ${releaseTag}: ${error.message}`)));
+        if (!isNaN(issueNumber)) {
+          return utilities.getIssue(issueNumber).then((issue) => {
+            const text = `#${issue.number} - ${issue.title.trim()} (@${commit.author.login})\n\n${issue.body.trim()}`;
+            return Object.assign(commit, { issue, release, text });
+          });
         } else {
-          promises.push(null);
+          const text = `${commit.commit.message.trim()} (@${commit.author.login})`;
+          return Object.assign(commit, { release, text });
         }
-
-        if (issueNumber) {
-          promises.push(github.get(`/repos/${repo}/issues/${issueNumber}`).then(null, (error) => console.warn(`Skipping issue #${issueNumber}: ${error.message}`)));
-        } else {
-          promises.push(null);
-        }
-
-        return Promise.all(promises);
-      }, (error) => {
-        console.warn(`Skipping commit ${sha}: ${error.message}`);
-
-        return [];
-      }).then(([commit, release, issue]) => {
-        if (commit) {
-          commit.release = release;
-          commit.issue = issue;
-        }
-
-        return commit;
       });
-    });
-
-    return Promise.all(promises).then((commits) => commits.filter((commit) => commit));
+    })).then((commits) => commits.filter((commit) => {
+      if (excludeRegExp) {
+        return !excludeRegExp.test(commit.text);
+      } else {
+        return true;
+      }
+    }));
   });
+}
+
+function getAuthors(commits) {
+  const authors = commits.reduce((obj, commit) => {
+    const { id, login, html_url } = commit.author;
+    const { name, email } = commit.commit.author;
+
+    let text;
+
+    if (name && email) {
+      text = `${name} <${email}> (@${login})`;
+    } else if (name) {
+      text = `${name} (@${login})`;
+    } else {
+      text = `@${login}`;
+    }
+
+    obj[id] = { login, html_url, name, email, text };
+
+    return obj;
+  }, {});
+
+  return utilities.values(authors);
 }
 
 function groupCommitsByRelease(commits) {
@@ -111,11 +142,10 @@ function groupCommitsByRelease(commits) {
     return obj;
   }, {});
 
-  return Object.keys(groups).map((key) => groups[key]);
+  return utilities.values(groups);
 }
 
 function groupCommitsByLabel(commits) {
-  const labels = Object.keys(headings);
   const groups = commits.reduce((obj, commit) => {
     labels.forEach((label) => {
       const key = label;
@@ -136,21 +166,24 @@ function groupCommitsByLabel(commits) {
     return obj;
   }, {});
 
-  return Object.keys(groups).sort((a, b) => labels.indexOf(a) - labels.indexOf(b)).map((key) => groups[key]);
+  return utilities.values(groups);
 }
 
-function groupCommitsByPackages(commits) {
-  const packagesPath = path.resolve(packagesDir);
+function groupCommitsByPackage(commits) {
   const groups = commits.reduce((obj, commit) => {
-    const packageNames = (commit.files.length > 0) ? commit.files.map((file) => {
-      const filePath = path.resolve(file.filename);
+    let packageNames;
 
-      if (filePath.startsWith(packagesPath)) {
-        return filePath.slice(packagesPath.length + 1).split(path.sep, 1)[0];
-      } else {
+    if (commit.files.length > 0) {
+      packageNames = commit.files.map((file) => {
+        const filePath = path.resolve(__dirname, "..", file.filename);
+        const packagePath = packagePaths.slice().reverse().find((packagePath) => filePath.startsWith(packagePath));
+        const packageName = (packagePath) ? path.basename(packagePath) : rootPackageName;
+
         return packageName;
-      }
-    }) : [packageName];
+      });
+    } else {
+      packageNames = [rootPackageName];
+    }
 
     const packages = [...new Set(packageNames)].sort();
     const key = packages.toString();
@@ -164,79 +197,129 @@ function groupCommitsByPackages(commits) {
     return obj;
   }, {});
 
-  return Object.keys(groups).sort().map((key) => groups[key]);
+  return utilities.values(groups);
 }
 
-function formatCommitsAsJson(commits) {
-  return JSON.stringify(commits, null, 2);
-}
+function formatCommits1(commits) {
+  let markdown = "";
 
-function formatCommitsAsMarkdown(commits) {
-  let markdown = `# Changelog${eol}`;
+  if (groupByRelease) {
+    groupCommitsByRelease(commits).forEach((obj) => {
+      const releaseHeading = (obj.release) ? obj.release.name.trim() : "Unreleased";
+      const releaseBody = (obj.release) ? new Date(obj.release.published_at).toUTCString() : new Date().toUTCString();
+      const releaseCommits = obj.commits;
 
-  groupCommitsByRelease(commits).forEach((obj) => {
-    const releaseHeading = (obj.release) ? `${obj.release.name.trim()} - ${new Date(obj.release.published_at).toDateString()}` : "[RELEASE TITLE] - [RELEASE DATE]";
-    const releaseBody = (obj.release) ? obj.release.body.trim() : "[RELEASE DESCRIPTION]"
+      if (releaseHeading && releaseBody) {
+        markdown += `## ${releaseHeading}${eol}> ${releaseBody}${eol}${eol}`;
+      } else {
+        markdown += `## ${releaseHeading}${eol}${eol}`;
+      }
 
-    markdown += `${eol}## ${releaseHeading}${eol}`;
-
-    if (releaseBody) {
-      markdown += `${eol}> ${releaseBody}${eol}`;
-    }
-
-    groupCommitsByLabel(obj.commits).forEach((obj) => {
-      const labelHeading = headings[obj.label];
-
-      markdown += `${eol}### ${labelHeading}${eol}`;
-
-      groupCommitsByPackages(obj.commits).forEach((obj) => {
-        const packagesHeading = obj.packages.map((package) => `\`${package}\``).join(", ");
-
-        markdown += `${eol}* ${packagesHeading}${eol}`;
-
-        obj.commits.forEach((commit) => {
-          const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.replace(commitIssueSearch, commitIssueReplacement).replace(newlineSearch, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))` : `${commit.commit.message.replace(commitIssueSearch, commitIssueReplacement).replace(newlineSearch, newlineReplacement).trim()} ([@${commit.author.login}](${commit.author.html_url}))`
-          const commitBody = (commit.issue) ? commit.issue.body.replace(commitIssueSearch, commitIssueReplacement).replace(newlineSearch, newlineReplacement).trim() : null;
-
-          markdown += `${eol}  * ${commitHeading}${eol}`;
-
-          if (commitBody) {
-            markdown += `${eol}    ${commitBody}${eol}`;
-          }
-        });
-      });
+      markdown += formatCommits2(releaseCommits);
+      markdown += formatCommits5(releaseCommits);
     });
+  } else {
+    markdown += formatCommits2(commits);
+    markdown += formatCommits5(commits);
+  }
+
+  return markdown;
+}
+
+function formatCommits2(commits) {
+  let markdown = `### Commits (${commits.length})${eol}${eol}`;
+
+  if (groupByLabel) {
+    groupCommitsByLabel(commits).sort((a, b) => labels.indexOf(a.label) - labels.indexOf(b.label)).forEach((obj) => {
+      const labelHeading = headings[obj.label];
+      const labelCommits = obj.commits;
+
+      markdown += `#### ${labelHeading}${eol}${eol}`;
+      markdown += formatCommits3(labelCommits);
+    });
+  } else {
+    markdown += formatCommits3(commits);
+  }
+
+  return markdown;
+}
+
+function formatCommits3(commits) {
+  let markdown = "";
+
+  if (groupByPackage) {
+    groupCommitsByPackage(commits).sort((a, b) => a.packages.join(", ").localeCompare(b.packages.join(", "))).forEach((obj) => {
+      const packageHeading = obj.packages.map((name) => `\`${name}\``).join(", ");
+      const packageCommits = obj.commits;
+
+      markdown += `* ${packageHeading}${eol}${eol}`;
+      markdown += formatCommits4(packageCommits);
+    });
+  } else {
+    markdown += formatCommits4(commits);
+  }
+
+  return markdown;
+}
+
+function formatCommits4(commits) {
+  let markdown = "";
+
+  commits.forEach((commit, index, array) => {
+    const commitHeading = (commit.issue) ? `[#${commit.issue.number}](${commit.issue.html_url}) - ${commit.issue.title.trim()} ([@${commit.author.login}](${commit.author.html_url}))` : `${commit.commit.message.trim()} ([@${commit.author.login}](${commit.author.html_url}))`;
+    const commitBody = (commit.issue) ? commit.issue.body.trim() : null;
+
+    if (commitBody) {
+      markdown += `${commitHeadingPrefix}${utilities.indent(commitHeading, commitHeadingPrefix.length)}${eol}${eol}${commitBodyPrefix}${utilities.indent(commitBody, commitBodyPrefix.length)}${eol}${eol}`;
+    } else if (index === array.length - 1) {
+      markdown += `${commitHeadingPrefix}${utilities.indent(commitHeading, commitHeadingPrefix.length)}${eol}${eol}`;
+    } else {
+      markdown += `${commitHeadingPrefix}${utilities.indent(commitHeading, commitHeadingPrefix.length)}${eol}`;
+    }
   });
 
   return markdown;
 }
 
-function outputCommits(commits) {
-  let output;
+function formatCommits5(commits) {
+  const contributors = getAuthors(commits).sort((a, b) => a.text.localeCompare(b.text)).map((author) => {
+    const { login, html_url, name, email } = author;
 
-  switch (format) {
-    case "json":
-      output = formatCommitsAsJson(commits);
-      break;
+    if (name && email) {
+      return `${name} \\<${email}> ([@${login}](${html_url}))`;
+    } else if (name) {
+      return `${name} ([@${login}](${html_url}))`;
+    } else {
+      return `[@${login}](${html_url})`;
+    }
+  });
 
-    case "markdown":
-      output = formatCommitsAsMarkdown(commits);
-      break;
+  let markdown = `### Contributors (${contributors.length})${eol}${eol}`;
 
-    default:
-      throw new Error(`Unknown format: ${format}`);
+  contributors.forEach((contributor, index, array) => {
+    if (index === array.length - 1) {
+      markdown += `* ${contributor}${eol}${eol}`;
+    } else {
+      markdown += `* ${contributor}${eol}`;
+    }
+  });
+
+  return markdown;
+}
+
+function writeCommits(commits) {
+  // let output = JSON.stringify(commits, null, 2);
+  let output = formatCommits1(commits).trim();
+
+  if (output) {
+    output += eol;
   }
 
-  if (outputFile) {
-    fs.writeFileSync(outputFile, output);
+  if (outFile) {
+    fs.writeFileSync(outFile, output);
   } else {
-    console.log(output);
+    process.stdout.write(output);
   }
 }
 
-function handleError(error) {
-  console.error(error);
-  process.exit(1);
-}
-
-getCommits().then(outputCommits).catch(handleError);
+getCommits().then(writeCommits).catch(utilities.handleError);

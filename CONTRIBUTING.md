@@ -17,15 +17,10 @@ Before submitting a pull request, please *ask first* to verify your addition is 
 
 ## Cutting a release
 
-1. Tag each merged pull request in the release with the relevant [milestone](https://github.com/billyzkid/untitled/milestones) and then close the milestone
-2. Tag each merged pull request in the release with one or more [labels](https://github.com/billyzkid/untitled/labels) starting with `change:` to indicate the type of change(s) included in the PR
-3. Update the changelog:
+1. Tag each merged pull request in the release with a [milestone](https://github.com/billyzkid/untitled/milestones) and then close the milestone
+2. Tag each merged pull request in the release with one or more [labels](https://github.com/billyzkid/untitled/labels) starting with `change:` to identify the type of change(s) for the changelog
+3. If this is your first release:
+  * Ensure you have an authenticated npm user account (i.e. see `npm adduser` or `npm login`)
   * Create a [GitHub personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
-  * Create a .env file in the root folder containing the following line: `GITHUB_API_TOKEN=[YOUR TOKEN]`
-  * Run `npm run changelog` to update CHANGELOG.md with information about each merged commit in the release
-  * Open CHANGELOG.md and update the placeholders for release title, date, and description
-  * Verify the changes to CHANGELOG.md, commit, and then push to the remote repository
-4. Create a new [release](https://github.com/billyzkid/untitled/releases/new) with the same title and description used above
-5. Publish the release:
-  * Ensure you have an authenticated npm user account (i.e. run `npm adduser` or `npm login`)
-  * Run `npm run release`
+  * Create a .env file in the root folder containing the following line: `GITHUB_API_TOKEN=[YOUR TOKEN HERE]`
+4. Run `npm run release` and follow the prompts
