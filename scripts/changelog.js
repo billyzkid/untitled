@@ -1,16 +1,16 @@
 const childProcess = require("child_process");
 const fs = require("fs");
-const glob = require("glob");
 const minimist = require("minimist");
 const path = require("path");
 const utilities = require("./utilities");
 const { EOL: eol } = require("os");
 
 const options = minimist(process.argv.slice(2), {
-  string: ["out-file", "exclude-pattern"],
+  string: ["out-file", "packages-dir", "exclude-pattern"],
   boolean: ["group-by-release", "group-by-label", "group-by-package"],
   default: {
     "out-file": "./CHANGELOG.md",
+    "packages-dir": "./packages",
     "exclude-pattern": null,
     "group-by-release": true,
     "group-by-label": false,
@@ -18,6 +18,7 @@ const options = minimist(process.argv.slice(2), {
   },
   alias: {
     o: "out-file",
+    d: "packages-dir",
     x: "exclude-pattern",
     r: "group-by-release",
     l: "group-by-label",
@@ -26,6 +27,7 @@ const options = minimist(process.argv.slice(2), {
 });
 
 const outFile = options["out-file"];
+const packagesDir = options["packages-dir"];
 const excludePattern = options["exclude-pattern"];
 const groupByRelease = options["group-by-release"];
 const groupByLabel = options["group-by-label"];
@@ -51,8 +53,8 @@ const headings = {
 };
 
 const labels = Object.keys(headings);
-const packagePaths = glob.sync("**/package.json", { ignore: "**/node_modules/**" }).map((result) => path.resolve(path.dirname(result)));
-const rootPackageName = (packagePaths.length > 0) ? path.basename(packagePaths[0]) : "";
+const packageName = path.basename(process.cwd());
+const packagesPath = path.resolve(packagesDir);
 
 function getCommits() {
   utilities.checkBranchUpToDate();
@@ -171,21 +173,15 @@ function groupCommitsByLabel(commits) {
 
 function groupCommitsByPackage(commits) {
   const groups = commits.reduce((obj, commit) => {
-    let packageNames;
-
-    if (commit.files.length > 0) {
-      packageNames = commit.files.map((file) => {
-        const filePath = path.resolve(__dirname, "..", file.filename);
-        const packagePath = packagePaths.slice().reverse().find((packagePath) => filePath.startsWith(packagePath));
-        const packageName = (packagePath) ? path.basename(packagePath) : rootPackageName;
-
+    const packages = (commit.files.length > 0) ? [...new Set(commit.files.map((file) => {
+      const filePath = path.resolve(__dirname, "..", file.filename);
+      if (filePath.startsWith(packagesPath)) {
+        return filePath.slice(packagesPath.length + 1).split(path.sep, 1)[0];
+      } else {
         return packageName;
-      });
-    } else {
-      packageNames = [rootPackageName];
-    }
+      }
+    }))].sort() : [packageName];
 
-    const packages = [...new Set(packageNames)].sort();
     const key = packages.toString();
 
     if (!obj[key]) {
