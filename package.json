@@ -31,12 +31,13 @@
     "minimist": "^1.2.0",
     "node-fetch": "^1.6.3",
     "rimraf": "^2.5.4",
-    "semver": "^5.3.0"
+    "semver": "^5.3.0",
+    "untitled-scripts": "^0.0.1"
   },
   "scripts": {
-    "authors": "node ./scripts/authors",
+    "authors": "untitled-scripts authors",
     "build": "lerna run build",
-    "changelog": "node ./scripts/changelog --group-by-label --group-by-package",
+    "changelog": "untitled-scripts changelog --group-by-label --group-by-package",
     "clean": "node ./scripts/clean",
     "coverage": "lerna run coverage",
     "lint": "lerna run lint",

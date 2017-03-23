@@ -4,7 +4,9 @@ export function run(script, args) {
   let code;
 
   switch (script) {
+    case "authors":
     case "build":
+    case "changelog":
     case "eject":
     case "start":
     case "test": {

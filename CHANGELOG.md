@@ -1,7 +1,7 @@
 ## Unreleased
-> Wed, 22 Mar 2017 08:05:15 GMT
+> Thu, 23 Mar 2017 23:04:05 GMT
 
-### Commits (131)
+### Commits (133)
 
 #### :nail_care: Polish
 
@@ -140,6 +140,8 @@
 
 * `untitled`
 
+  - Use latest author info ([@billyzkid](https://github.com/billyzkid))
+  - Fixes ([@billyzkid](https://github.com/billyzkid))
   - Temp commit ([@billyzkid](https://github.com/billyzkid))
   - Junk ([@billyzkid](https://github.com/billyzkid))
   - Fixed release script ([@billyzkid](https://github.com/billyzkid))
