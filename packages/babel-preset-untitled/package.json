@@ -8,39 +8,38 @@
     "babel-preset",
     "untitled"
   ],
-  "author": "Will Allan <billyzkid@yahoo.com> (https://github.com/billyzkid)",
-  "homepage": "https://billyzkid.github.io/untitled/",
   "bugs": "https://github.com/billyzkid/untitled/issues",
   "repository": "billyzkid/untitled",
   "license": "MIT",
-  "main": "./build/index.js",
+  "main": "./lib/index.js",
   "files": [
-    "build"
+    "bin",
+    "lib"
   ],
   "engines": {
     "node": ">=6"
   },
   "dependencies": {
-    "babel-plugin-transform-class-properties": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.22.0",
-    "babel-preset-latest": "^6.22.0"
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-latest": "^6.24.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.22.2",
-    "eslint": "^3.15.0",
-    "jest": "^18.1.0",
+    "babel-cli": "^6.24.0",
+    "eslint": "^3.18.0",
+    "jest": "^19.0.2",
     "nodemon": "^1.11.0",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.6.1"
   },
   "scripts": {
-    "build": "babel ./src --out-dir ./build --ignore *.test.js --source-maps",
+    "build": "babel ./src --out-dir ./lib --source-maps",
     "build:watch": "npm run build -- --watch",
     "coverage": "npm run test -- --coverage",
     "coverage:watch": "npm run coverage -- --watch",
     "lint": "eslint ./src",
     "lint:fix": "npm run lint -- --fix",
     "lint:watch": "nodemon --watch ./src --exec npm run lint",
-    "prebuild": "rimraf ./build",
+    "prebuild": "rimraf ./lib",
     "precoverage": "rimraf ./coverage",
     "prepublish": "npm run lint && npm run test && npm run build",
     "test": "jest --config ../../.jestrc",

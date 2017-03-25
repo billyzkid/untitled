@@ -1,11 +1,11 @@
-import preset from "./index";
+import index from "./index";
 
-describe("preset", () => {
+describe("index", () => {
   test("should have an array of presets", () => {
-    expect(Array.isArray(preset.presets)).toBe(true);
+    expect(Array.isArray(index.presets)).toBe(true);
   });
 
   test("should have an array of plugins", () => {
-    expect(Array.isArray(preset.plugins)).toBe(true);
+    expect(Array.isArray(index.plugins)).toBe(true);
   });
 });

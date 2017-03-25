@@ -1,33 +1,35 @@
-import spawn from "cross-spawn";
+import crossSpawn from "cross-spawn";
 
-export function run(script, args) {
-  let code;
-
+/**
+ * Runs the specified script.
+ * @param {string} script The name of the script to run.
+ * @param {string[]} [args] The optional arguments passed to the script.
+ * @returns {number} The exit code.
+ */
+function run(script, ...args) {
   switch (script) {
-    case "authors":
     case "build":
-    case "changelog":
     case "eject":
-    case "start":
+    case "state":
     case "test": {
-      const result = spawn.sync("node", [require.resolve("./scripts/" + script)].concat(args), { stdio: "inherit" });
+      const scriptPath = require.resolve(`./scripts/${script}`);
+      const result = crossSpawn.sync("node", [scriptPath].concat(...args), { stdio: "inherit" });
 
       if (result.signal) {
-        console.log(`The "${script}" script failed because the process exited too early. This probably means it was killed or the system ran out of memory. Signal: ${result.signal}`);
-        code = 1;
+        console.error(`Script "${script}" failed (${result.signal})`);
+        return 1;
       } else {
-        code = result.status;
+        return result.status;
       }
-
-      break;
     }
 
     default: {
-      console.log(`Unknown script "${script}". Perhaps you need to update untitled-scripts? See: https://github.com/billyzkid/untitled/blob/master/README.md#updating`);
-      code = 0;
-      break;
+      console.warn(`Unknown script "${script}"`);
+      return 0;
     }
   }
-
-  return code;
 }
+
+export {
+  run
+};

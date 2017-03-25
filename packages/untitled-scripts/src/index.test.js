@@ -1,45 +1,62 @@
-import { run } from "./index";
-import spawn from "cross-spawn";
+import crossSpawn from "cross-spawn";
+import glob from "glob";
+import path from "path";
+import * as index from "./index";
 
 jest.mock("cross-spawn");
 
-test("run function should be exported", () => {
-  expect(run).toBeInstanceOf(Function);
-});
+describe("run", () => {
+  const successResult = { status: 0 };
+  const failureResult = { signal: "SIGTERM", status: 1 };
 
-["build", "eject", "start", "test"].forEach((script) => {
-  test(`${script} script should fail`, () => {
-    spawn.sync = jest.fn(() => ({ signal: "SIGTERM", status: 1 }));
-    console.log = jest.fn();
+  const scripts = glob.sync("./scripts/*.js", { cwd: __dirname }).reduce((obj, result) => {
+    const key = path.basename(result, ".js");
+    const value = require.resolve(result);
 
-    const code = run(script);
+    obj[key] = value;
 
-    expect(code).toBe(1);
-    expect(spawn.sync.mock.calls.length).toBe(1);
-    expect(console.log.mock.calls.length).toBe(1);
-    expect(console.log.mock.calls[0][0]).toBe(`The "${script}" script failed because the process exited too early. This probably means it was killed or the system ran out of memory. Signal: SIGTERM`);
+    return obj;
+  }, {});
+
+  Object.keys(scripts).forEach((script) => {
+    const scriptPath = scripts[script];
+
+    test(`should run script "${script}" with expected success result`, () => {
+      crossSpawn.sync = jest.fn(() => successResult);
+      console.error = jest.fn();
+
+      const code = index.run(script, "--foo", "--bar");
+
+      expect(code).toBe(successResult.status);
+      expect(crossSpawn.sync).toHaveBeenCalledTimes(1);
+      expect(crossSpawn.sync).toHaveBeenCalledWith("node", [scriptPath, "--foo", "--bar"], { "stdio": "inherit" });
+      expect(console.error).not.toHaveBeenCalled();
+    });
+
+    test(`should run script "${script}" with expected failure result`, () => {
+      crossSpawn.sync = jest.fn(() => failureResult);
+      console.error = jest.fn();
+
+      const code = index.run(script);
+
+      expect(code).toBe(failureResult.status);
+      expect(crossSpawn.sync).toHaveBeenCalledTimes(1);
+      expect(crossSpawn.sync).toHaveBeenCalledWith("node", [scriptPath], { "stdio": "inherit" });
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(`Script "${script}" failed (${failureResult.signal})`);
+    });
   });
 
-  test(`${script} script should succeed`, () => {
-    spawn.sync = jest.fn(() => ({ status: 0 }));
-    console.log = jest.fn();
+  test(`should not run unknown script`, () => {
+    crossSpawn.sync = jest.fn();
+    console.warn = jest.fn();
 
-    const code = run(script);
+    const script = "foo";
+    const code = index.run(script);
 
     expect(code).toBe(0);
-    expect(spawn.sync.mock.calls.length).toBe(1);
-    expect(console.log.mock.calls.length).toBe(0);
+    expect(crossSpawn.sync).not.toHaveBeenCalled();
+    expect(console.warn).toHaveBeenCalledTimes(1);
+    expect(console.warn).toHaveBeenCalledWith(`Unknown script "${script}"`);
   });
-});
-
-test("unknown script should be detected", () => {
-  spawn.sync = jest.fn(() => ({ status: 0 }));
-  console.log = jest.fn();
-
-  const code = run("xyzzy");
-
-  expect(code).toBe(0);
-  expect(spawn.sync.mock.calls.length).toBe(0);
-  expect(console.log.mock.calls.length).toBe(1);
-  expect(console.log.mock.calls[0][0]).toBe(`Unknown script "xyzzy". Perhaps you need to update untitled-scripts? See: https://github.com/billyzkid/untitled/blob/master/README.md#updating`);
 });
