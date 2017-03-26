@@ -10,7 +10,7 @@ function run(script, ...args) {
   switch (script) {
     case "build":
     case "eject":
-    case "state":
+    case "start":
     case "test": {
       const scriptPath = require.resolve(`./scripts/${script}`);
       const result = crossSpawn.sync("node", [scriptPath].concat(...args), { stdio: "inherit" });

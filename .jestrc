@@ -1,7 +1,9 @@
 {
-  "rootDir": "src",
   "testEnvironment": "node",
   "testRegex": "\\.test\\.js$",
+  "roots": [
+    "src"
+  ],
   "coverageReporters": [
     "json",
     "lcov",
